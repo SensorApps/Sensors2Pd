@@ -20,10 +20,11 @@ import org.sensors2.common.sensors.DataDispatcher;
 import org.sensors2.common.sensors.Parameters;
 import org.sensors2.common.sensors.SensorActivity;
 import org.sensors2.common.sensors.SensorCommunication;
-import org.sensors2.pd.sensors.Settings;
 import org.sensors2.pd.R;
 import org.sensors2.pd.sensors.PdDispatcher;
+import org.sensors2.pd.sensors.Settings;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,8 +38,7 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	private SensorCommunication sensorFactory;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sensors2pd);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -59,6 +59,7 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 // PD
 //		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
 	}
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -80,7 +81,11 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 
 	@Override
 	public List<Parameters> GetSensors(SensorManager manager) {
-		return null;
+		List<Parameters> parameters = new ArrayList<Parameters>();
+		for (Sensor sensor : sensorManager.getSensorList(Sensor.TYPE_ALL)) {
+			parameters.add(new org.sensors2.pd.sensors.Parameters(sensor.getType()));
+		}
+		return parameters;
 	}
 
 	@Override
@@ -107,15 +112,16 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	public void onAccuracyChanged(Sensor sensor, int i) {
 
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.sensors2_pd, menu);
 		return true;
-	}@Override
-	 public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())
-		{
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
 			case R.id.action_browse:
 //				if( isSDCardUnlocked(Sensors2PDActivity.this) ) {
 //					loadFileList();
