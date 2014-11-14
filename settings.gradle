@@ -1,2 +1,3 @@
-include ':app', ':common'
+include ':app', ':common', ':PdCore'
 project(':common').projectDir = new File('Common')
+project(':PdCore').projectDir = new File('pd-for-android/PdCore')
