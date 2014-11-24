@@ -1,3 +1,4 @@
-include ':app', ':common', ':PdCore'
+include ':app', ':common', ':PdCore', ':AndroidMidi'
 project(':common').projectDir = new File('Common')
+project(':AndroidMidi').projectDir = new File('pd-for-android/midi/AndroidMidi')
 project(':PdCore').projectDir = new File('pd-for-android/PdCore')

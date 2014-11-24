@@ -10,6 +10,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Common" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/pd-for-android/PdCore" />
+            <option value="$PROJECT_DIR$/pd-for-android/midi/AndroidMidi" />
           </set>
         </option>
       </GradleProjectSettings>
