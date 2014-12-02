@@ -33,7 +33,7 @@ import java.util.List;
 public class Sensors2PdActivity extends Activity implements SensorEventListener, SensorActivity, OnTouchListener {
 
 	private Settings settings;
-	private DataDispatcher dispatcher;
+	private PdDispatcher dispatcher;
 	private SensorManager sensorManager;
 	private SensorCommunication sensorFactory;
 
@@ -47,7 +47,7 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 // Sensors
 		super.onCreate(savedInstanceState);
 		this.settings = this.loadSettings();
-		this.dispatcher = new PdDispatcher();
+		this.dispatcher = new PdDispatcher(this);
 		this.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		this.sensorFactory = new SensorCommunication(this);
 // Wifi
