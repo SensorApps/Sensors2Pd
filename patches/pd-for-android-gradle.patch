@@ -1,0 +1,49 @@
+From 0b2ea3e867ee619fd458140930e17664352b3bdb Mon Sep 17 00:00:00 2001
+From: Thomas Mayer <thomas@residuum.org>
+Date: Sat, 6 Dec 2014 13:57:04 +0100
+Subject: [PATCH] Changes for gradle build
+
+---
+ PdCore/build.gradle | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/PdCore/build.gradle b/PdCore/build.gradle
+index 34ca314..874a401 100644
+--- a/PdCore/build.gradle
++++ b/PdCore/build.gradle
+@@ -3,7 +3,7 @@ buildscript {
+         mavenCentral()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:0.4'
++        classpath 'com.android.tools.build:gradle:0.13.2'
+     }
+ }
+ apply plugin: 'android-library'
+@@ -13,11 +13,11 @@ dependencies {
+ 
+ android {
+     compileSdkVersion 17
+-    buildToolsVersion "17"
++    buildToolsVersion '19.1.0'
+ 
+     defaultConfig {
+-        minSdkVersion 3
+-        targetSdkVersion 3
++        minSdkVersion 8
++        targetSdkVersion 8
+     }
+     sourceSets {
+         main {
+@@ -33,3 +33,7 @@ android {
+         instrumentTest.setRoot('tests')
+     }
+ }
++
++dependencies {
++    compile project(":AndroidMidi")
++}
+\ No newline at end of file
+-- 
+2.1.3
+

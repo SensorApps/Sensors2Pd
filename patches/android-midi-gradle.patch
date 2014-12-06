@@ -1,0 +1,36 @@
+From 061942884b733364c424448bf88376bb212396b7 Mon Sep 17 00:00:00 2001
+From: Thomas Mayer <thomas@residuum.org>
+Date: Sat, 6 Dec 2014 14:00:56 +0100
+Subject: [PATCH] Changes for gradle build
+
+---
+ AndroidMidi/build.gradle | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/AndroidMidi/build.gradle b/AndroidMidi/build.gradle
+index 13aca3f..cae2154 100644
+--- a/AndroidMidi/build.gradle
++++ b/AndroidMidi/build.gradle
+@@ -3,7 +3,7 @@ buildscript {
+         mavenCentral()
+     }
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:0.4'
++        classpath 'com.android.tools.build:gradle:0.13.2'
+     }
+ }
+ apply plugin: 'android-library'
+@@ -12,8 +12,8 @@ dependencies {
+ }
+ 
+ android {
+-    compileSdkVersion 12
+-    buildToolsVersion "12"
++    compileSdkVersion 17
++    buildToolsVersion '19.1.0'
+ 
+     defaultConfig {
+         minSdkVersion 8
+-- 
+2.1.3
+
