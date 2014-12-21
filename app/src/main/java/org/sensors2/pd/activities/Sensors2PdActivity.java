@@ -21,6 +21,7 @@ import org.sensors2.common.sensors.Parameters;
 import org.sensors2.common.sensors.SensorActivity;
 import org.sensors2.common.sensors.SensorCommunication;
 import org.sensors2.pd.R;
+import org.sensors2.pd.filesystem.FileSelector;
 import org.sensors2.pd.sensors.PdDispatcher;
 import org.sensors2.pd.sensors.Settings;
 
@@ -123,10 +124,10 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_browse:
-//				if( isSDCardUnlocked(Sensors2PDActivity.this) ) {
-//					loadFileList();
-//					onCreateDialog(BROWSE_DIALOG).show();
-//				}
+				FileSelector loader = new FileSelector(Sensors2PdActivity.this);
+				if (loader.canLoad()) {
+					loader.show();
+				}
 				return true;
 			case R.id.action_guide:
 				Intent intent = new Intent(this, GuideActivity.class);
