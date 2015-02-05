@@ -8,4 +8,7 @@
     <string name="activity_guide">Sensors2PD Guide</string>
     <string name="text_guide">Guide:\n\nYou can use any of the receivers from available sensors to interact with your patch.\n\nIf Accelerometer is available, you can use these receivers:\n [r sensor1v0], [r sensor1v1], [r sensor1v2]\n\nTouch screen sensors are also available from:\n [r sensorT0vx] to [r sensorT14vx],\n and \n [r sensorT14vy] to [r sensorT14vy].\n\nYou can also use WiFi signal level:\n [r sensorW-WiFiSSID]\n\nCheck available sensors below.\nThanks for using Sensors2PD.\n\n</string>
     <string name="text_available_sensors">Available sensors:\n</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="open_file">Select .pd or .zip file</string>
 </resources>

@@ -1,152 +1,217 @@
 package org.sensors2.pd.filesystem;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Environment;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.sensors2.pd.R;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by thomas on 09.12.14.
  */
 public class FileSelector {
-	private Activity activity;
-	private Item[] fileList;
-	private File path = new File(Environment.getExternalStorageDirectory() + "");
-	private String chosenFile;
-	private Boolean firstLvl = true;
-	private ListAdapter adapter;
 
-	public FileSelector(Activity activity) {
-		this.activity = activity;
+	private String rootDirectory;
+	private Context context;
+	private TextView titleView;
+	private TextView selectionView;
+	private String selectedFileName = null;
+
+	private String directory = "";
+	private List<String> subDirectories = null;
+	private FileSelectorListener listener = null;
+	private ArrayAdapter<String> listAdapter = null;
+	private boolean moveUp = false;
+
+	public interface FileSelectorListener {
+		public void onChosenFile(String filePath);
 	}
 
-	public boolean canLoad() {
-		String auxSDCardStatus = Environment.getExternalStorageState();
-		if (auxSDCardStatus.equals(Environment.MEDIA_MOUNTED))
-			return true;
-		else if (auxSDCardStatus.equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
-			Toast.makeText(
-					activity,
-					"Warning, the SDCard it's only in read mode.\nthis does not result in malfunction"
-							+ " of the read aplication", Toast.LENGTH_LONG)
-					.show();
-			return true;
-		} else if (auxSDCardStatus.equals(Environment.MEDIA_NOFS)) {
-			Toast.makeText(
-					activity,
-					"Error, the SDCard can be used, it has not a corret format or "
-							+ "is not formated.", Toast.LENGTH_LONG)
-					.show();
-			return false;
-		} else if (auxSDCardStatus.equals(Environment.MEDIA_REMOVED)) {
-			Toast.makeText(
-					activity,
-					"Error, the SDCard is not found, to use the reader you need "
-							+ "insert a SDCard on the device.",
-					Toast.LENGTH_LONG).show();
-			return false;
-		} else if (auxSDCardStatus.equals(Environment.MEDIA_SHARED)) {
-			Toast.makeText(
-					activity,
-					"Error, the SDCard is not mounted beacuse is using "
-							+ "connected by USB. Plug out and try again.",
-					Toast.LENGTH_LONG).show();
-			return false;
-		} else if (auxSDCardStatus.equals(Environment.MEDIA_UNMOUNTABLE)) {
-			Toast.makeText(
-					activity,
-					"Error, the SDCard cant be mounted.\nThe may be happend when the SDCard is corrupted "
-							+ "or crashed.", Toast.LENGTH_LONG).show();
-			return false;
-		} else if (auxSDCardStatus.equals(Environment.MEDIA_UNMOUNTED)) {
-			Toast.makeText(
-					activity,
-					"Error, the SDCArd is on the device but is not mounted."
-							+ "Mount it before use the app.",
-					Toast.LENGTH_LONG).show();
-			return false;
+	public FileSelector(Context context, FileSelectorListener listener) {
+		this.context = context;
+		this.rootDirectory = Environment.getExternalStorageDirectory().getAbsolutePath();
+		this.listener = listener;
+
+		try {
+			rootDirectory = new File(rootDirectory).getCanonicalPath();
+		} catch (IOException ioe) {
 		}
-		return true;
 	}
 
-	public void show() {
-		loadFileList();
-		createAdapter();
+	public void chooseFile() {
+		if (directory.equals("")) chooseFile(rootDirectory);
+		else chooseFile(directory);
 	}
 
-	private void createAdapter() {
-		adapter = new ArrayAdapter<Item>(activity,
-				android.R.layout.select_dialog_item, android.R.id.text1,
-				fileList) {
+	private void chooseFile(String dir) {
+		File dirFile = new File(dir);
+		while (!dirFile.exists() || !dirFile.isDirectory()) {
+			dir = dirFile.getParent();
+			dirFile = new File(dir);
+		}
+		try {
+			dir = new File(dir).getCanonicalPath();
+		} catch (IOException ioe) {
+			return;
+		}
+
+		directory = dir;
+		subDirectories = getDirectories(dir);
+
+		class SimpleFileDialogOnClickListener implements DialogInterface.OnClickListener {
+			public void onClick(DialogInterface dialog, int item) {
+				String currentDirectory = directory;
+				String selectedEntry = "" + ((AlertDialog) dialog).getListView().getAdapter().getItem(item);
+				if (selectedEntry.charAt(selectedEntry.length() - 1) == '/')
+					selectedEntry = selectedEntry.substring(0, selectedEntry.length() - 1);
+
+				if (selectedEntry.equals("..")) {
+					directory = directory.substring(0, directory.lastIndexOf("/"));
+					if ("".equals(directory)) {
+						directory = "/";
+					}
+				} else {
+					directory += "/" + selectedEntry;
+				}
+
+				if ((new File(directory).isFile())) {
+					directory = currentDirectory;
+					selectedFileName = selectedEntry;
+					selectionView.setText(directory + "/" + selectedFileName);
+				} else {
+					updateDirectory();
+				}
+			}
+		}
+
+		AlertDialog.Builder dialogBuilder = createDirectoryChooserDialog(dir, subDirectories,
+				new SimpleFileDialogOnClickListener());
+
+		dialogBuilder.setPositiveButton(R.string.ok, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// Current directory chosen
+				// Call registered listener supplied with the chosen directory
+				if (listener != null) {
+					listener.onChosenFile(directory + "/" + selectedFileName);
+				}
+			}
+		}).setNegativeButton(R.string.cancel, null);
+
+		final AlertDialog dirsDialog = dialogBuilder.create();
+
+		// Show directory chooser dialog
+		dirsDialog.show();
+	}
+
+	private boolean createSubDir(String newDir) {
+		File newDirFile = new File(newDir);
+		if (!newDirFile.exists()) return newDirFile.mkdir();
+		else return false;
+	}
+
+	private List<String> getDirectories(String dir) {
+		List<String> dirs = new ArrayList<String>();
+		try {
+			File dirFile = new File(dir);
+
+			// if directory is not the base sd card directory add ".." for going up one directory
+			if ((moveUp || !directory.equals(rootDirectory))
+					&& !"/".equals(directory)
+					) {
+				dirs.add("..");
+			}
+			if (!dirFile.exists() || !dirFile.isDirectory()) {
+				return dirs;
+			}
+
+			for (File file : dirFile.listFiles()) {
+				dirs.add(file.getName());
+			}
+		} catch (Exception e) {
+		}
+
+		Collections.sort(dirs, new Comparator<String>() {
+			public int compare(String o1, String o2) {
+				return o1.compareTo(o2);
+			}
+		});
+		return dirs;
+	}
+
+	private AlertDialog.Builder createDirectoryChooserDialog(String title, List<String> listItems,
+															 DialogInterface.OnClickListener onClickListener) {
+		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
+		this.titleView = new TextView(context);
+		this.titleView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+
+		this.titleView.setText(R.string.open_file);
+
+		//need to make this a variable Save as, Open, Select Directory
+		this.titleView.setGravity(Gravity.CENTER_VERTICAL);
+		this.titleView.setBackgroundColor(-12303292); // dark gray 	-12303292
+		this.titleView.setTextColor(context.getResources().getColor(android.R.color.white));
+
+		LinearLayout titleLayout1 = new LinearLayout(context);
+		titleLayout1.setOrientation(LinearLayout.VERTICAL);
+		titleLayout1.addView(this.titleView);
+
+		LinearLayout titleLayout = new LinearLayout(context);
+		titleLayout.setOrientation(LinearLayout.VERTICAL);
+
+		selectionView = new TextView(context);
+		selectionView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		selectionView.setBackgroundColor(-12303292); // dark gray -12303292
+		selectionView.setTextColor(context.getResources().getColor(android.R.color.white));
+		selectionView.setGravity(Gravity.CENTER_VERTICAL);
+		selectionView.setText(title);
+
+		titleLayout.addView(selectionView);
+
+		dialogBuilder.setView(titleLayout);
+		dialogBuilder.setCustomTitle(titleLayout1);
+		listAdapter = createListAdapter(listItems);
+		dialogBuilder.setSingleChoiceItems(listAdapter, -1, onClickListener);
+		dialogBuilder.setCancelable(false);
+		return dialogBuilder;
+	}
+
+	private void updateDirectory() {
+		subDirectories.clear();
+		subDirectories.addAll(getDirectories(directory));
+		selectionView.setText(directory);
+		listAdapter.notifyDataSetChanged();
+	}
+
+	private ArrayAdapter<String> createListAdapter(List<String> items) {
+		return new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, android.R.id.text1, items) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
-				View view = super.getView(position, convertView, parent);
-				TextView textView = (TextView) view
-						.findViewById(android.R.id.text1);
-				textView.setCompoundDrawablesWithIntrinsicBounds(
-						fileList[position].icon, 0, 0, 0);
-				int dp5 = (int) (5 * activity.getResources().getDisplayMetrics().density + 0.5f);
-				textView.setCompoundDrawablePadding(dp5);
-				return view;
+				View v = super.getView(position, convertView, parent);
+				if (v instanceof TextView) {
+					// Enable list item (directory) text wrapping
+					TextView tv = (TextView) v;
+					tv.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
+					tv.setEllipsize(null);
+				}
+				return v;
 			}
 		};
-	}
-
-	private void loadFileList() {
-		try {
-			path.mkdirs();
-		} catch (SecurityException e) {
-			Toast.makeText(activity, "Unable to read SD Card!", Toast.LENGTH_SHORT).show();
-			Log.e("error", "unable to write on the sd card ");
-		}
-		if (path.exists()) {
-			FilenameFilter filter = new FilenameFilter() {
-				public boolean accept(File dir, String filename) {
-					File sel = new File(dir, filename);
-					return (sel.isFile() || sel.isDirectory())
-							&& !sel.isHidden();
-				}
-			};
-			String[] fList = path.list(filter);
-			fileList = new Item[fList.length];
-			for (int i = 0; i < fList.length; i++) {
-				fileList[i] = new Item(fList[i], R.drawable.file_icon);
-				File sel = new File(path, fList[i]);
-				if (sel.isDirectory()) {
-					fileList[i].icon = R.drawable.directory_icon;
-				}
-			}
-			if (!firstLvl) {
-				Item temp[] = new Item[fileList.length + 1];
-				for (int i = 0; i < fileList.length; i++) {
-					temp[i + 1] = fileList[i];
-				}
-				temp[0] = new Item("Up", R.drawable.directory_up);
-				fileList = temp;
-			}
-		}
-	}
-
-	private class Item {
-		public String file;
-		public int icon;
-		public Item(String file, Integer icon) {
-			this.file = file;
-			this.icon = icon;
-		}
-		@Override
-		public String toString() {
-			return file;
-		}
 	}
 }

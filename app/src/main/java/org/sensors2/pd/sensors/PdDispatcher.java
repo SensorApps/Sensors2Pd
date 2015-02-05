@@ -12,16 +12,12 @@ import org.puredata.android.io.AudioParameters;
 import org.puredata.android.service.PdService;
 import org.puredata.android.utils.PdUiDispatcher;
 import org.puredata.core.PdBase;
-import org.puredata.core.utils.IoUtils;
 import org.sensors2.common.sensors.DataDispatcher;
 import org.sensors2.common.sensors.Measurement;
 import org.sensors2.pd.R;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by thomas on 12.11.14.
@@ -33,7 +29,6 @@ public class PdDispatcher implements DataDispatcher {
 	private final Activity activity;
 
 	public PdDispatcher(Activity activity) {
-
 		this.activity = activity;
 	}
 
@@ -49,7 +44,6 @@ public class PdDispatcher implements DataDispatcher {
 			pdService = ((PdService.PdBinder)service).getService();
 			try {
 				initPd();
-				loadPatch();
 			} catch (IOException e) {
 				Log.e(TAG, e.toString());
 				finish();
@@ -82,26 +76,24 @@ public class PdDispatcher implements DataDispatcher {
 		}
 	}
 
-	private void loadPatch() throws IOException {
+	private void loadPatch(File pdFile) throws IOException {
 // Hear the sound
 		if (pdFile != null) {
-			Log.i(TAG, pdFile.getParentFile()+" <"+pdFile.getName().replace(".zip", ".pd")+">");
-			if(pdFile.getAbsolutePath().endsWith(".pd")) {
-				PdBase.openPatch(pdFile.getAbsolutePath());
-			} else if(pdFile.getAbsolutePath().endsWith(".zip")) {
-				InputStream in = null;
-				in = new BufferedInputStream(new FileInputStream(pdFile));
-								IoUtils.extractZipResource(in, pdFile.getParentFile(), true);
-				File patchFile = new File(pdFile.getParentFile()+"/"+pdFile.getName().replace(".zip", ""), pdFile.getName().replace(".zip", ".pd"));
 				try {
-					PdBase.openPatch(patchFile.getAbsolutePath());
-					Log.e(TAG, "File "+pdFile.getAbsolutePath()+" "+patchFile.getAbsolutePath());
+					PdBase.openPatch(pdFile.getAbsolutePath());
+					Log.e(TAG, "File "+pdFile.getAbsolutePath()+" "+pdFile.getAbsolutePath());
 				} catch (IOException e) {
 					Toast.makeText(activity, "The zip file needs a file with the same name inside: patch.zip -> patch.pd", Toast.LENGTH_SHORT).show();
 				}
-			} else {
-				Toast.makeText(activity, "Invalid file format. Please try .pd or .zip", Toast.LENGTH_SHORT).show();
-			}
+		}
+	}
+
+	public void setPdFile(File pdFile) {
+		this.pdFile = pdFile;
+		try {
+			loadPatch(this.pdFile);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

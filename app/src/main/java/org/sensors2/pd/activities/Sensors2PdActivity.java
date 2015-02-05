@@ -21,6 +21,7 @@ import org.sensors2.common.sensors.Parameters;
 import org.sensors2.common.sensors.SensorActivity;
 import org.sensors2.common.sensors.SensorCommunication;
 import org.sensors2.pd.R;
+import org.sensors2.pd.filesystem.FileLoader;
 import org.sensors2.pd.filesystem.FileSelector;
 import org.sensors2.pd.sensors.PdDispatcher;
 import org.sensors2.pd.sensors.Settings;
@@ -31,7 +32,7 @@ import java.util.List;
 /**
  * Created by thomas on 12.11.14.
  */
-public class Sensors2PdActivity extends Activity implements SensorEventListener, SensorActivity, OnTouchListener {
+public class Sensors2PdActivity extends Activity implements SensorEventListener, SensorActivity, OnTouchListener, FileSelector.FileSelectorListener {
 
 	private Settings settings;
 	private PdDispatcher dispatcher;
@@ -124,10 +125,8 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_browse:
-				FileSelector loader = new FileSelector(Sensors2PdActivity.this);
-				if (loader.canLoad()) {
-					loader.show();
-				}
+				FileSelector loader = new FileSelector(this, this);
+				loader.chooseFile();
 				return true;
 			case R.id.action_guide:
 				Intent intent = new Intent(this, GuideActivity.class);
@@ -142,5 +141,11 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	@Override
 	public boolean onTouch(View view, MotionEvent motionEvent) {
 		return false;
+	}
+
+	@Override
+	public void onChosenFile(String filePath) {
+		FileLoader loader = new FileLoader(filePath);
+		this.dispatcher.setPdFile(loader.getFile());
 	}
 }
