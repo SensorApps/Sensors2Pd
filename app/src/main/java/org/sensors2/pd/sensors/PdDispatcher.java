@@ -30,11 +30,15 @@ public class PdDispatcher implements DataDispatcher {
 
 	public PdDispatcher(Activity activity) {
 		this.activity = activity;
+		this.activity.bindService(new Intent(this.activity, PdService.class), pdConnection, this.activity.BIND_AUTO_CREATE);
 	}
 
 	@Override
 	public void dispatch(Measurement sensorData) {
-
+		float[] values = sensorData.getValues();
+		for(int i = 0; i < values.length; i++){
+			PdBase.sendFloat("sensor"+sensorData.getSensorType()+"v"+i, values[i]);
+		}
 	}
 
 	private PdService pdService;
@@ -82,6 +86,7 @@ public class PdDispatcher implements DataDispatcher {
 				try {
 					PdBase.openPatch(pdFile.getAbsolutePath());
 					Log.e(TAG, "File "+pdFile.getAbsolutePath()+" "+pdFile.getAbsolutePath());
+					this.activity.bindService(new Intent(this.activity, PdService.class), pdConnection, this.activity.BIND_AUTO_CREATE);
 				} catch (IOException e) {
 					Toast.makeText(activity, "The zip file needs a file with the same name inside: patch.zip -> patch.pd", Toast.LENGTH_SHORT).show();
 				}
