@@ -25,3 +25,11 @@ dependencies {
     compile project(":AndroidMidi")
     compile project(":PdCore")
 }
+
+task copyNativeLibs(type: Copy) {
+    from(new File(getProjectDir(), 'libs')) { include '**/*.so' }
+    into new File(getProjectDir(), 'src/main/jniLibs')
+}
+tasks.withType(JavaCompile) { compileTask -> compileTask.dependsOn copyNativeLibs }
+
+clean.dependsOn 'cleanCopyNativeLibs'
