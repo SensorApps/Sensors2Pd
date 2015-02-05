@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/pd-for-android/midi/AndroidMidi/AndroidMidi.iml" filepath="$PROJECT_DIR$/pd-for-android/midi/AndroidMidi/AndroidMidi.iml" />
       <module fileurl="file://$PROJECT_DIR$/Pd.iml" filepath="$PROJECT_DIR$/Pd.iml" />
       <module fileurl="file://$PROJECT_DIR$/pd-for-android/PdCore/PdCore.iml" filepath="$PROJECT_DIR$/pd-for-android/PdCore/PdCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Sensors2Pd.iml" filepath="$PROJECT_DIR$/Sensors2Pd.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/Common/common.iml" filepath="$PROJECT_DIR$/Common/common.iml" />
     </modules>

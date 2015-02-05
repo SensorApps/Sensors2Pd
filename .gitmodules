@@ -1,6 +1,6 @@
 [submodule "Common"]
 	path = Common
-	url = git@github.com:SensorApps/Common.git
+	url = https://github.com/SensorApps/Common.git
 [submodule "pd-for-android"]
 	path = pd-for-android
 	url = https://github.com/libpd/pd-for-android.git
