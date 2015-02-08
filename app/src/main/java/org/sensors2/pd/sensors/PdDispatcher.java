@@ -30,14 +30,13 @@ public class PdDispatcher implements DataDispatcher {
 
 	public PdDispatcher(Activity activity) {
 		this.activity = activity;
-		this.activity.bindService(new Intent(this.activity, PdService.class), pdConnection, this.activity.BIND_AUTO_CREATE);
 	}
 
 	@Override
 	public void dispatch(Measurement sensorData) {
 		float[] values = sensorData.getValues();
-		for(int i = 0; i < values.length; i++){
-			PdBase.sendFloat("sensor"+sensorData.getSensorType()+"v"+i, values[i]);
+		for (int i = 0; i < values.length; i++) {
+			PdBase.sendFloat("sensor" + sensorData.getSensorType() + "v" + i, values[i]);
 		}
 	}
 
@@ -45,7 +44,7 @@ public class PdDispatcher implements DataDispatcher {
 	private final ServiceConnection pdConnection = new ServiceConnection() {
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
-			pdService = ((PdService.PdBinder)service).getService();
+			pdService = ((PdService.PdBinder) service).getService();
 			try {
 				initPd();
 			} catch (IOException e) {
@@ -53,6 +52,7 @@ public class PdDispatcher implements DataDispatcher {
 				finish();
 			}
 		}
+
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 // this method will never be called?!
@@ -63,7 +63,7 @@ public class PdDispatcher implements DataDispatcher {
 	}
 
 	private void initPd() throws IOException {
-	// Configure the audio glue
+		// Configure the audio glue
 		int sampleRate = AudioParameters.suggestSampleRate();
 		pdService.initAudio(sampleRate, 1, 2, 10.0f);
 		pdService.startAudio();
@@ -83,13 +83,13 @@ public class PdDispatcher implements DataDispatcher {
 	private void loadPatch(File pdFile) throws IOException {
 // Hear the sound
 		if (pdFile != null) {
-				try {
-					PdBase.openPatch(pdFile.getAbsolutePath());
-					Log.e(TAG, "File "+pdFile.getAbsolutePath()+" "+pdFile.getAbsolutePath());
-					this.activity.bindService(new Intent(this.activity, PdService.class), pdConnection, this.activity.BIND_AUTO_CREATE);
-				} catch (IOException e) {
-					Toast.makeText(activity, "The zip file needs a file with the same name inside: patch.zip -> patch.pd", Toast.LENGTH_SHORT).show();
-				}
+			try {
+				PdBase.openPatch(pdFile.getAbsolutePath());
+				Log.e(TAG, "File " + pdFile.getAbsolutePath() + " " + pdFile.getAbsolutePath());
+				this.activity.bindService(new Intent(this.activity, PdService.class), pdConnection, this.activity.BIND_AUTO_CREATE);
+			} catch (IOException e) {
+				Toast.makeText(activity, "The zip file needs a file with the same name inside: patch.zip -> patch.pd", Toast.LENGTH_SHORT).show();
+			}
 		}
 	}
 
@@ -100,5 +100,13 @@ public class PdDispatcher implements DataDispatcher {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void onResume() {
+		this.activity.bindService(new Intent(this.activity, PdService.class), pdConnection, this.activity.BIND_AUTO_CREATE);
+	}
+
+	public void onPause() {
+		this.activity.unbindService(pdConnection);
 	}
 }
