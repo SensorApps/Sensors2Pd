@@ -76,7 +76,7 @@ public class PdDispatcher implements DataDispatcher {
 	private void start() {
 		if (!pdService.isRunning()) {
 			Intent intent = new Intent(this.activity, this.activity.getClass());
-			pdService.startAudio(intent, R.drawable.ic_launcher, "S2PD", "Return to S2PD.");
+			pdService.startAudio(intent, R.drawable.sensors2pd, "Sensors2PD", "Return to Sensors2PD.");
 		}
 	}
 
