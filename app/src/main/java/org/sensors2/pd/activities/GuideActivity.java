@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.sensors2.pd.R;
@@ -26,9 +28,10 @@ public class GuideActivity extends Activity {
 		// Sensors
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		List<Sensor> listSensor = mSensorManager.getSensorList(Sensor.TYPE_ALL);
+		TextView availableSensorsHeadline = (TextView) findViewById(R.id.availSensorsHeadline);
+		availableSensorsHeadline.setText(listSensor.size()+" "+availableSensorsHeadline.getText());
 		TextView textViewAvailableSensors = (TextView) findViewById(R.id.textViewAvailableSensors);
 		StringBuilder availableSensors = new StringBuilder();
-		availableSensors.append(listSensor.size()+" "+textViewAvailableSensors.getText());
 		for(Sensor sensor : listSensor){
 			int sensorId = sensor.getType();
 			availableSensors.append("\n"+sensor.getName()+
@@ -37,6 +40,20 @@ public class GuideActivity extends Activity {
 					"\n send: sensor"+sensorId+"v0; sensor"+sensorId+"v1; sensor"+sensorId+"v2;\n");
 		}
 		textViewAvailableSensors.setText(availableSensors);
+		if (android.os.Build.VERSION.SDK_INT >= 11) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			// Respond to the action bar's Up/Home button
+			case android.R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 }

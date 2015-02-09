@@ -93,12 +93,14 @@ public class PdDispatcher implements DataDispatcher {
 		}
 	}
 
-	public void setPdFile(File pdFile) {
+	public boolean setPdFile(File pdFile) {
 		this.pdFile = pdFile;
 		try {
 			loadPatch(this.pdFile);
+			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 

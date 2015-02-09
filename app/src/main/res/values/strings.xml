@@ -1,14 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Sensors2PD</string>
-    <string name="text_intro">Welcome to Sensors2PD!\n\nCreate your patch using desired receivers, upload to your SDcard and load using Browse menu option.\n\nLook at the Guide menu option if you want any help.</string>
+    <string name="app_name">Sensors2Pd</string>
+    <string name="text_intro_headline">Welcome to Sensors2Pd!</string>
+    <string name="text_intro">Create your patch using desired receivers, upload to your SD card and load using Browse menu option.\n\nLook at the Guide menu option if you want any help.</string>
+    <string name="text_pd_file">Currently loaded</string>
     <string name="action_browse">Browse</string>
     <string name="action_debug">DebugSW</string>
     <string name="action_guide">Guide</string>
     <string name="activity_guide">Sensors2PD Guide</string>
-    <string name="text_guide">Guide:\n\nYou can use any of the receivers from available sensors to interact with your patch.\n\nIf Accelerometer is available, you can use these receivers:\n [r sensor1v0], [r sensor1v1], [r sensor1v2]\n\nTouch screen sensors are also available from:\n [r sensorT0vx] to [r sensorT14vx],\n and \n [r sensorT14vy] to [r sensorT14vy].\n\nYou can also use WiFi signal level:\n [r sensorW-WiFiSSID]\n\nCheck available sensors below.\nThanks for using Sensors2PD.\n\n</string>
-    <string name="text_available_sensors">Available sensors:\n</string>
+    <string name="text_guide_headline">Guide</string>
+    <string name="text_guide">You can use any of the receivers from available sensors to interact with your patch.\n\nIf Accelerometer is available, you can use these receivers:\n [r sensor1v0], [r sensor1v1], [r sensor1v2]\n\nTouch screen sensors are also available from:\n [r sensorT0vx] to [r sensorT14vx],\n and \n [r sensorT14vy] to [r sensorT14vy].\n\nYou can also use WiFi signal level:\n [r sensorW-WiFiSSID]\n\nCheck available sensors below.\nThanks for using Sensors2PD.\n\n</string>
+    <string name="text_available_sensors">Available sensors</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="open_file">Select .pd or .zip file</string>
+    <string name="action_about">About</string>
+    <string name="about_copyright">© Antonio Deusany de Carvalho Junior, Thomas Mayer 2015, &lt;a href=&quot;http://sensors2.org/pd/&quot;>sensors2.org/pd&lt;/a></string>
+    <string name="about_buglinks">Please report bugs on &lt;a href=&quot;https://github.com/SensorApps/Sensors2OSC/issues&quot;>GitHub&lt;/a> or send an email to &lt;a href=&quot;mailto:pd-bugs@sensors2.org&quot;">pd-bugs@sensors2.org&lt;/a>. We will take a look at it.</string>
+    <string name="about_license">License</string>
+    <string name="about_mit_license_1">Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</string>
+    <string name="about_mit_license_2">The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</string>
+    <string name="about_mit_license_3"><![CDATA[THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.]]></string>
+    <string name="about_components">Used Components</string>
+    <string name="about_license_libpd">
+        &lt;a href=&quot;https://github.com/libpd/pd-for-android&quot;>Pd for Android&lt;/a>, license can be found at &lt;a href=&quot;https://raw.githubusercontent.com/libpd/pd-for-android/master/PdCore/LICENSE.txt&quot;>https://raw.githubusercontent.com/libpd/pd-for-android/master/PdCore/LICENSE.txt&lt;/a>.&lt;br/>&lt;br/>
+        &lt;a href=&quot;https://github.com/libpd/libpd&quot;>libPd&lt;/a>, license can be found at &lt;a href=&quot;https://raw.githubusercontent.com/libpd/libpd/master/LICENSE.txt&quot;>https://raw.githubusercontent.com/libpd/libpd/master/LICENSE.txt&lt;/a>.&lt;br/>&lt;br/>
+        &lt;a href=&quot;https://github.com/nettoyeurny/btmidi&quot;>MIDI for Android&lt;/a>, license can be found at &lt;a href=&quot;https://raw.githubusercontent.com/nettoyeurny/btmidi/master/AndroidMidi/LICENSE-2.0.txt&quot;>https://raw.githubusercontent.com/nettoyeurny/btmidi/master/AndroidMidi/LICENSE-2.0.txt&lt;/a>.
+        </string>
 </resources>

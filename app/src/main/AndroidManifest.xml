@@ -22,6 +22,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.Sensors2PdActivity"/>
         </activity>
+        <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/action_about">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.Sensors2PdActivity"/>
+        </activity>
 
     </application>
 

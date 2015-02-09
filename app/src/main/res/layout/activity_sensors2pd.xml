@@ -23,12 +23,35 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/introHeadline"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_intro_headline"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="visible" />
+
+            <TextView
                 android:id="@+id/textViewIntro"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/text_intro"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/runningPdFileIntro"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/text_pd_file"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/runningPdFile"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:visibility="invisible" />
 
         </LinearLayout>
     </ScrollView>

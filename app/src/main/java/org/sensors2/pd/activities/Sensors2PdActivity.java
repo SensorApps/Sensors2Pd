@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.TextView;
 
 import org.sensors2.common.sensors.DataDispatcher;
 import org.sensors2.common.sensors.Parameters;
@@ -26,6 +27,7 @@ import org.sensors2.pd.filesystem.FileSelector;
 import org.sensors2.pd.sensors.PdDispatcher;
 import org.sensors2.pd.sensors.Settings;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,10 +132,16 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 				FileSelector loader = new FileSelector(this, this);
 				loader.chooseFile();
 				return true;
-			case R.id.action_guide:
+			case R.id.action_guide: {
 				Intent intent = new Intent(this, GuideActivity.class);
 				startActivity(intent);
 				return true;
+			}
+			case R.id.action_about: {
+				Intent intent = new Intent(this, AboutActivity.class);
+				startActivity(intent);
+				return true;
+			}
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -148,6 +156,15 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	@Override
 	public void onChosenFile(String filePath) {
 		FileLoader loader = new FileLoader(filePath);
-		this.dispatcher.setPdFile(loader.getFile());
+		File loadedFile = loader.getFile();
+		if (this.dispatcher.setPdFile(loadedFile)) {
+			findViewById(R.id.runningPdFileIntro).setVisibility(View.VISIBLE);
+			TextView view = (TextView)findViewById(R.id.runningPdFile);
+			view.setText(loadedFile.getName());
+			view.setVisibility(View.VISIBLE);
+		} else {
+			findViewById(R.id.runningPdFileIntro).setVisibility(View.INVISIBLE);
+			findViewById(R.id.runningPdFile).setVisibility(View.INVISIBLE);
+		}
 	}
 }
