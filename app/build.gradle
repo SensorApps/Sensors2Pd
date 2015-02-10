@@ -21,10 +21,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:20.0.0'
     compile project(":common")
     compile project(":AndroidMidi")
     compile project(":PdCore")
-    compile 'com.android.support:support-v4:20.0.0'
 }
 
 task copyNativeLibs(type: Copy) {

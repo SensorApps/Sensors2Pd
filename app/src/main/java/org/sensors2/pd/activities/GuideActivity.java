@@ -9,7 +9,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.sensors2.pd.R;
+import org.sensors2.pd.sensors.Parameters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,27 +19,30 @@ import java.util.List;
  */
 public class GuideActivity extends Activity {
 
-
-	protected SensorManager mSensorManager;
+	private SensorManager sensorManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_guide);
 
-		// Sensors
-		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		List<Sensor> listSensor = mSensorManager.getSensorList(Sensor.TYPE_ALL);
 		TextView availableSensorsHeadline = (TextView) findViewById(R.id.availSensorsHeadline);
-		availableSensorsHeadline.setText(listSensor.size()+" "+availableSensorsHeadline.getText());
 		TextView textViewAvailableSensors = (TextView) findViewById(R.id.textViewAvailableSensors);
+		this.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		StringBuilder availableSensors = new StringBuilder();
-		for(Sensor sensor : listSensor){
-			int sensorId = sensor.getType();
-			availableSensors.append("\n"+sensor.getName()+
-					"\n max range: "+sensor.getMaximumRange()+
-					"\n resolution: "+sensor.getResolution()+
-					"\n send: sensor"+sensorId+"v0; sensor"+sensorId+"v1; sensor"+sensorId+"v2;\n");
+		List<Parameters> sensors = GetSensors(sensorManager);
+		availableSensorsHeadline.setText(sensors.size() + " " + availableSensorsHeadline.getText());
+		for (Parameters parameters : sensors) {
+			int sensorId = parameters.getSensorType();
+			Sensor sensor = parameters.getSensor();
+			availableSensors.append("\n" + sensor.getName() +
+					"\n max range: " + sensor.getMaximumRange() +
+					"\n resolution: " + sensor.getResolution() +
+					"\n send: ");
+			for (int i = 0; i < parameters.getDimensions(); i++) {
+				availableSensors.append(" sensor" + sensorId + "v" + i);
+			}
+			availableSensors.append("\n");
 		}
 		textViewAvailableSensors.setText(availableSensors);
 		if (android.os.Build.VERSION.SDK_INT >= 11) {
@@ -56,4 +61,11 @@ public class GuideActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	public List<Parameters> GetSensors(SensorManager manager) {
+		List<Parameters> parameters = new ArrayList<Parameters>();
+		for (Sensor sensor : manager.getSensorList(Sensor.TYPE_ALL)) {
+			parameters.add(new Parameters(sensor));
+		}
+		return parameters;
+	}
 }

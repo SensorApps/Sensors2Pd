@@ -89,7 +89,7 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	public List<Parameters> GetSensors(SensorManager manager) {
 		List<Parameters> parameters = new ArrayList<Parameters>();
 		for (Sensor sensor : sensorManager.getSensorList(Sensor.TYPE_ALL)) {
-			parameters.add(new org.sensors2.pd.sensors.Parameters(sensor.getType()));
+			parameters.add(new org.sensors2.pd.sensors.Parameters(sensor));
 		}
 		return parameters;
 	}
@@ -134,6 +134,11 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 				return true;
 			case R.id.action_guide: {
 				Intent intent = new Intent(this, GuideActivity.class);
+				startActivity(intent);
+				return true;
+			}
+			case R.id.action_settings: {
+				Intent intent = new Intent(this, SettingsActivity.class);
 				startActivity(intent);
 				return true;
 			}
