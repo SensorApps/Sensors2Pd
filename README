@@ -9,13 +9,7 @@ Development and Building
 ------------------------
 
 After cloning the source, you need to download the submodules:
-    git submodule init
-    git submodule update
-
-After that, pd-for-android needs its submodules downloaded as well:
-    cd pd-for-android
-    git submodule init
-    git submodule update
+    git submodule update --init --recursive
 
 As a last step, you have to apply patches to pd-for-android and
 MIDI for Android:
