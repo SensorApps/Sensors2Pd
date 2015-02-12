@@ -34,10 +34,9 @@ public class GuideActivity extends Activity {
 		availableSensorsHeadline.setText(sensors.size() + " " + availableSensorsHeadline.getText());
 		for (Parameters parameters : sensors) {
 			int sensorId = parameters.getSensorType();
-			Sensor sensor = parameters.getSensor();
-			availableSensors.append("\n" + sensor.getName() +
-					"\n max range: " + sensor.getMaximumRange() +
-					"\n resolution: " + sensor.getResolution() +
+			availableSensors.append("\n" + parameters.getSensorName() +
+					"\n max range: " + parameters.getRange() +
+					"\n resolution: " + parameters.getResolution() +
 					"\n send: ");
 			for (int i = 0; i < parameters.getDimensions(); i++) {
 				availableSensors.append(" sensor" + sensorId + "v" + i);
