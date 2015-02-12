@@ -1,14 +1,17 @@
 package org.sensors2.pd.activities;
 
-import android.app.Activity;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.sensors2.pd.R;
+import org.sensors2.pd.fragments.HelpSensorGroupFragment;
 import org.sensors2.pd.sensors.Parameters;
 
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ import java.util.List;
 /**
  * Created by thomas on 12.11.14.
  */
-public class GuideActivity extends Activity {
+public class GuideActivity extends FragmentActivity {
 
 	private SensorManager sensorManager;
 
@@ -27,26 +30,37 @@ public class GuideActivity extends Activity {
 		setContentView(R.layout.activity_guide);
 
 		TextView availableSensorsHeadline = (TextView) findViewById(R.id.availSensorsHeadline);
-		TextView textViewAvailableSensors = (TextView) findViewById(R.id.textViewAvailableSensors);
 		this.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-		StringBuilder availableSensors = new StringBuilder();
 		List<Parameters> sensors = GetSensors(sensorManager);
 		availableSensorsHeadline.setText(sensors.size() + " " + availableSensorsHeadline.getText());
 		for (Parameters parameters : sensors) {
-			int sensorId = parameters.getSensorType();
-			availableSensors.append("\n" + parameters.getSensorName() +
-					"\n max range: " + parameters.getRange() +
-					"\n resolution: " + parameters.getResolution() +
-					"\n send: ");
-			for (int i = 0; i < parameters.getDimensions(); i++) {
-				availableSensors.append(" sensor" + sensorId + "v" + i);
-			}
-			availableSensors.append("\n");
+			this.CreateSensorFragments(parameters);
 		}
-		textViewAvailableSensors.setText(availableSensors);
 		if (android.os.Build.VERSION.SDK_INT >= 11) {
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
+	}
+
+	private void CreateSensorFragments(Parameters parameters) {
+		FragmentManager manager = getSupportFragmentManager();
+		HelpSensorGroupFragment groupFragment = (HelpSensorGroupFragment) manager.findFragmentByTag(parameters.getSensorName());
+		if (groupFragment == null) {
+			this.CreateFragment(parameters, manager);
+		}
+	}
+
+	private void CreateFragment(Parameters parameters, FragmentManager manager) {
+		FragmentTransaction transaction = manager.beginTransaction();
+		HelpSensorGroupFragment groupFragment = new HelpSensorGroupFragment();
+		Bundle args = new Bundle();
+		args.putInt("dimensions", parameters.getDimensions());
+		args.putInt("sensorType", parameters.getSensorType());
+		args.putString("sensorName", parameters.getSensorName());
+		args.putFloat("range", parameters.getRange());
+		args.putFloat("resolution", parameters.getResolution());
+		groupFragment.setArguments(args);
+		transaction.add(R.id.sensor_group, groupFragment, parameters.getSensorName());
+		transaction.commit();
 	}
 
 	@Override

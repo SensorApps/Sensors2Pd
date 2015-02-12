@@ -40,4 +40,6 @@ THE SOFTWARE.]]></string>
         &lt;a href=&quot;https://github.com/libpd/libpd&quot;>libPd&lt;/a>, license can be found at &lt;a href=&quot;https://raw.githubusercontent.com/libpd/libpd/master/LICENSE.txt&quot;>https://raw.githubusercontent.com/libpd/libpd/master/LICENSE.txt&lt;/a>.&lt;br/>&lt;br/>
         &lt;a href=&quot;https://github.com/nettoyeurny/btmidi&quot;>MIDI for Android&lt;/a>, license can be found at &lt;a href=&quot;https://raw.githubusercontent.com/nettoyeurny/btmidi/master/AndroidMidi/LICENSE-2.0.txt&quot;>https://raw.githubusercontent.com/nettoyeurny/btmidi/master/AndroidMidi/LICENSE-2.0.txt&lt;/a>.
         </string>
+    <string name="guide_max_range">Max range</string>
+    <string name="guide_resolution">Resolution</string>
 </resources>
