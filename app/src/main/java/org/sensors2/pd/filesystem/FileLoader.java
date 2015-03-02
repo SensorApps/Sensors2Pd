@@ -1,5 +1,7 @@
 package org.sensors2.pd.filesystem;
 
+import android.content.Context;
+
 import org.puredata.core.utils.IoUtils;
 
 import java.io.BufferedInputStream;
@@ -14,9 +16,11 @@ import java.io.InputStream;
  */
 public class FileLoader {
 	private final String filePath;
+	private final Context ctx;
 
-	public FileLoader(String filePath) {
+	public FileLoader(String filePath, Context ctx) {
 		this.filePath = filePath;
+		this.ctx = ctx;
 	}
 
 	public File getFile() {
@@ -27,9 +31,10 @@ public class FileLoader {
 			} else if (file.getAbsolutePath().endsWith(".zip")) {
 				InputStream in = null;
 				try {
+					File dir = ctx.getFilesDir();
 					in = new BufferedInputStream(new FileInputStream(file));
-					IoUtils.extractZipResource(in, file.getParentFile(), true);
-					File patchFile = new File(file.getParentFile() + "/" + file.getName().replace(".zip", ""), file.getName().replace(".zip", ".pd"));
+					IoUtils.extractZipResource(in, dir, true);
+					File patchFile = new File(dir, file.getName().replace(".zip", ".pd"));
 					return patchFile;
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();

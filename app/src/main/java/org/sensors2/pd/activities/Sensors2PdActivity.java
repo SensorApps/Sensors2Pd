@@ -60,8 +60,6 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 //		registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 //		isRunning = true;
 //		mainWifi.startScan();
-// PD
-//		bindService(new Intent(this, PdService.class), pdConnection, BIND_AUTO_CREATE);
 	}
 
 	@Override
@@ -160,11 +158,11 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 
 	@Override
 	public void onChosenFile(String filePath) {
-		FileLoader loader = new FileLoader(filePath);
+		FileLoader loader = new FileLoader(filePath, this);
 		File loadedFile = loader.getFile();
 		if (this.dispatcher.setPdFile(loadedFile)) {
 			findViewById(R.id.runningPdFileIntro).setVisibility(View.VISIBLE);
-			TextView view = (TextView)findViewById(R.id.runningPdFile);
+			TextView view = (TextView) findViewById(R.id.runningPdFile);
 			view.setText(loadedFile.getName());
 			view.setVisibility(View.VISIBLE);
 		} else {
