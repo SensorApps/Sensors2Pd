@@ -29,14 +29,12 @@ public class FileSelector {
 
 	private String rootDirectory;
 	private Context context;
-	private TextView titleView;
-	private TextView selectionView;
 	private String selectedFileName = null;
 
 	private String directory = "";
-	private List<String> subDirectories = null;
+	private List<File> subDirectories = null;
 	private FileSelectorListener listener = null;
-	private ArrayAdapter<String> listAdapter = null;
+	private ArrayAdapter<File> listAdapter = null;
 	private boolean moveUp = false;
 
 	public interface FileSelectorListener {
@@ -76,31 +74,38 @@ public class FileSelector {
 
 		class SimpleFileDialogOnClickListener implements DialogInterface.OnClickListener {
 			public void onClick(DialogInterface dialog, int item) {
-				String currentDirectory = directory;
-				String selectedEntry = "" + ((AlertDialog) dialog).getListView().getAdapter().getItem(item);
+				String dir = directory;
+				String currentDirectory = dir;
+				AlertDialog dirsDialog = (AlertDialog) dialog;
+				String selectedEntry = "" + dirsDialog.getListView().getAdapter().getItem(item);
 				if (selectedEntry.charAt(selectedEntry.length() - 1) == '/')
 					selectedEntry = selectedEntry.substring(0, selectedEntry.length() - 1);
 
 				if (selectedEntry.equals("..")) {
-					directory = directory.substring(0, directory.lastIndexOf("/"));
-					if ("".equals(directory)) {
-						directory = "/";
-					}
+					dir = DirectoryUp(dir);
 				} else {
-					directory += "/" + selectedEntry;
+					dir = selectedEntry;
 				}
 
-				if ((new File(directory).isFile())) {
-					directory = currentDirectory;
-					selectedFileName = selectedEntry;
-					selectionView.setText(directory + "/" + selectedFileName);
+				if ((new File(dir).isFile())) {
+					updateFile(currentDirectory, selectedEntry);
+					dirsDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
 				} else {
-					updateDirectory();
+					updateDirectory(dir);
+					dirsDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 				}
+			}
+
+			private String DirectoryUp(String directory) {
+				directory = directory.substring(0, directory.lastIndexOf("/"));
+				if ("".equals(directory)) {
+					directory = "/";
+				}
+				return directory;
 			}
 		}
 
-		AlertDialog.Builder dialogBuilder = createDirectoryChooserDialog(dir, subDirectories,
+		AlertDialog.Builder dialogBuilder = createDirectoryChooserDialog(subDirectories,
 				new SimpleFileDialogOnClickListener());
 
 		dialogBuilder.setPositiveButton(R.string.ok, new OnClickListener() {
@@ -109,25 +114,32 @@ public class FileSelector {
 				// Current directory chosen
 				// Call registered listener supplied with the chosen directory
 				if (listener != null) {
-					listener.onChosenFile(directory + "/" + selectedFileName);
+					listener.onChosenFile(selectedFileName);
 				}
 			}
 		}).setNegativeButton(R.string.cancel, null);
 
 		final AlertDialog dirsDialog = dialogBuilder.create();
-
 		// Show directory chooser dialog
 		dirsDialog.show();
+		dirsDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
 	}
 
-	private boolean createSubDir(String newDir) {
-		File newDirFile = new File(newDir);
-		if (!newDirFile.exists()) return newDirFile.mkdir();
-		else return false;
+	private void updateFile(String currentDirectory, String selectedEntry) {
+		directory = currentDirectory;
+		selectedFileName = selectedEntry;
 	}
 
-	private List<String> getDirectories(String dir) {
-		List<String> dirs = new ArrayList<String>();
+	private void updateDirectory(String newDirectory) {
+		directory = newDirectory;
+		selectedFileName = null;
+		subDirectories.clear();
+		subDirectories.addAll(getDirectories(directory));
+		listAdapter.notifyDataSetChanged();
+	}
+
+	private List<File> getDirectories(String dir) {
+		List<File> dirs = new ArrayList<File>();
 		try {
 			File dirFile = new File(dir);
 
@@ -135,54 +147,45 @@ public class FileSelector {
 			if ((moveUp || !directory.equals(rootDirectory))
 					&& !"/".equals(directory)
 					) {
-				dirs.add("..");
+				dirs.add(new File(".."));
 			}
 			if (!dirFile.exists() || !dirFile.isDirectory()) {
 				return dirs;
 			}
 
 			for (File file : dirFile.listFiles()) {
-				dirs.add(file.getName());
+				dirs.add(file);
 			}
 		} catch (Exception e) {
 		}
 
-		Collections.sort(dirs, new Comparator<String>() {
-			public int compare(String o1, String o2) {
+		Collections.sort(dirs, new Comparator<File>() {
+			public int compare(File o1, File o2) {
 				return o1.compareTo(o2);
 			}
 		});
 		return dirs;
 	}
 
-	private AlertDialog.Builder createDirectoryChooserDialog(String title, List<String> listItems,
-															 DialogInterface.OnClickListener onClickListener) {
+	private AlertDialog.Builder createDirectoryChooserDialog(List<File> listItems,
+															 OnClickListener onClickListener) {
 		AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-		this.titleView = new TextView(context);
-		this.titleView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+		TextView titleView = new TextView(context);
+		titleView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-		this.titleView.setText(R.string.open_file);
+		titleView.setText(R.string.open_file);
 
 		//need to make this a variable Save as, Open, Select Directory
-		this.titleView.setGravity(Gravity.CENTER_VERTICAL);
-		this.titleView.setBackgroundColor(-12303292); // dark gray 	-12303292
-		this.titleView.setTextColor(context.getResources().getColor(android.R.color.white));
+		titleView.setGravity(Gravity.CENTER_VERTICAL);
+		titleView.setBackgroundColor(context.getResources().getColor(android.R.color.background_dark));
+		titleView.setTextColor(context.getResources().getColor(android.R.color.white));
 
 		LinearLayout titleLayout1 = new LinearLayout(context);
 		titleLayout1.setOrientation(LinearLayout.VERTICAL);
-		titleLayout1.addView(this.titleView);
+		titleLayout1.addView(titleView);
 
 		LinearLayout titleLayout = new LinearLayout(context);
 		titleLayout.setOrientation(LinearLayout.VERTICAL);
-
-		selectionView = new TextView(context);
-		selectionView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		selectionView.setBackgroundColor(-12303292); // dark gray -12303292
-		selectionView.setTextColor(context.getResources().getColor(android.R.color.white));
-		selectionView.setGravity(Gravity.CENTER_VERTICAL);
-		selectionView.setText(title);
-
-		titleLayout.addView(selectionView);
 
 		dialogBuilder.setView(titleLayout);
 		dialogBuilder.setCustomTitle(titleLayout1);
@@ -192,21 +195,17 @@ public class FileSelector {
 		return dialogBuilder;
 	}
 
-	private void updateDirectory() {
-		subDirectories.clear();
-		subDirectories.addAll(getDirectories(directory));
-		selectionView.setText(directory);
-		listAdapter.notifyDataSetChanged();
-	}
-
-	private ArrayAdapter<String> createListAdapter(List<String> items) {
-		return new ArrayAdapter<String>(context, android.R.layout.select_dialog_item, android.R.id.text1, items) {
+	private ArrayAdapter<File> createListAdapter(List<File> items) {
+		return new ArrayAdapter<File>(context, android.R.layout.select_dialog_item, android.R.id.text1, items) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				View v = super.getView(position, convertView, parent);
+
 				if (v instanceof TextView) {
 					// Enable list item (directory) text wrapping
 					TextView tv = (TextView) v;
+					String fullPath = tv.getText().toString();
+					tv.setText(fullPath.substring(fullPath.lastIndexOf('/') + 1));
 					tv.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
 					tv.setEllipsize(null);
 				}
