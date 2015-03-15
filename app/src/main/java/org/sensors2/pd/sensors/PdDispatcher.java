@@ -13,7 +13,8 @@ import org.puredata.android.service.PdService;
 import org.puredata.android.utils.PdUiDispatcher;
 import org.puredata.core.PdBase;
 import org.sensors2.common.sensors.DataDispatcher;
-import org.sensors2.common.sensors.Measurement;
+import org.sensors2.common.dispatch.Measurement;
+import org.sensors2.common.dispatch.MeasurementType;
 import org.sensors2.pd.R;
 
 import java.io.File;
@@ -36,7 +37,15 @@ public class PdDispatcher implements DataDispatcher {
 	public void dispatch(Measurement sensorData) {
 		float[] values = sensorData.getValues();
 		for (int i = 0; i < values.length; i++) {
-			PdBase.sendFloat("sensor" + sensorData.getSensorType() + "v" + i, values[i]);
+			String sendSymbol;
+			if (sensorData.getType() == MeasurementType.Sensor){
+				sendSymbol = "sensor" + sensorData.getSensorType() + "v" + i;
+			} else if (sensorData.getType() == MeasurementType.Wifi){
+				sendSymbol = "wifi" +sensorData.getName() + "v" + i;
+			} else {
+				sendSymbol = "";
+			}
+			PdBase.sendFloat(sendSymbol, values[i]);
 		}
 	}
 

@@ -10,4 +10,5 @@ public class Parameters extends org.sensors2.common.sensors.Parameters {
 	public Parameters(Sensor sensor) {
 		super(sensor);
 	}
+
 }

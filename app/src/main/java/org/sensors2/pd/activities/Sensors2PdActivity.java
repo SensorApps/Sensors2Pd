@@ -1,6 +1,7 @@
 package org.sensors2.pd.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -8,6 +9,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -21,11 +23,13 @@ import org.sensors2.common.sensors.DataDispatcher;
 import org.sensors2.common.sensors.Parameters;
 import org.sensors2.common.sensors.SensorActivity;
 import org.sensors2.common.sensors.SensorCommunication;
+import org.sensors2.common.wifi.WifiActivity;
 import org.sensors2.pd.R;
 import org.sensors2.pd.filesystem.FileLoader;
 import org.sensors2.pd.filesystem.FileSelector;
 import org.sensors2.pd.sensors.PdDispatcher;
 import org.sensors2.pd.sensors.Settings;
+import org.sensors2.pd.wifi.WifiCommunication;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,12 +38,14 @@ import java.util.List;
 /**
  * Created by thomas on 12.11.14.
  */
-public class Sensors2PdActivity extends Activity implements SensorEventListener, SensorActivity, OnTouchListener, FileSelector.FileSelectorListener {
+public class Sensors2PdActivity extends Activity implements SensorEventListener, SensorActivity, WifiActivity, OnTouchListener, FileSelector.FileSelectorListener {
 
 	private Settings settings;
 	private PdDispatcher dispatcher;
 	private SensorManager sensorManager;
 	private SensorCommunication sensorFactory;
+	private WifiManager wifiManager;
+	private WifiCommunication wifiFactory;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +54,15 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		View view = findViewById(R.id.scrollView1);
 		view.setOnTouchListener(this);
-// Sensors
 		super.onCreate(savedInstanceState);
 		this.settings = this.loadSettings();
 		this.dispatcher = new PdDispatcher(this);
+		// Sensors
 		this.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		this.sensorFactory = new SensorCommunication(this);
-// Wifi
-//		mainWifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-//		receiverWifi = new WifiReceiver();
-//		registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-//		isRunning = true;
-//		mainWifi.startScan();
+		// Wifi
+		this.wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		this.wifiFactory = new WifiCommunication(this);
 	}
 
 	@Override
@@ -169,5 +172,10 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 			findViewById(R.id.runningPdFileIntro).setVisibility(View.INVISIBLE);
 			findViewById(R.id.runningPdFile).setVisibility(View.INVISIBLE);
 		}
+	}
+
+	@Override
+	public WifiManager getWifiManager() {
+		return wifiManager;
 	}
 }
