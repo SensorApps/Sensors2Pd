@@ -32,6 +32,7 @@ import org.sensors2.pd.sensors.Settings;
 import org.sensors2.pd.wifi.WifiCommunication;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,7 +163,12 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	@Override
 	public void onChosenFile(String filePath) {
 		FileLoader loader = new FileLoader(filePath, this);
-		File loadedFile = loader.getFile();
+		File loadedFile = null;
+		try {
+			loadedFile = loader.getFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		if (this.dispatcher.setPdFile(loadedFile)) {
 			findViewById(R.id.runningPdFileIntro).setVisibility(View.VISIBLE);
 			TextView view = (TextView) findViewById(R.id.runningPdFile);
