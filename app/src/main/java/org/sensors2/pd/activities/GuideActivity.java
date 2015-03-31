@@ -10,6 +10,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.sensors2.pd.Bundling;
 import org.sensors2.pd.R;
 import org.sensors2.pd.fragments.HelpSensorGroupFragment;
 import org.sensors2.pd.sensors.Parameters;
@@ -53,11 +54,11 @@ public class GuideActivity extends FragmentActivity {
 		FragmentTransaction transaction = manager.beginTransaction();
 		HelpSensorGroupFragment groupFragment = new HelpSensorGroupFragment();
 		Bundle args = new Bundle();
-		args.putInt("dimensions", parameters.getDimensions());
-		args.putInt("sensorType", parameters.getSensorType());
-		args.putString("sensorName", parameters.getSensorName());
-		args.putFloat("range", parameters.getRange());
-		args.putFloat("resolution", parameters.getResolution());
+		args.putInt(Bundling.DIMENSIONS, parameters.getDimensions());
+		args.putInt(Bundling.SENSOR_TYPE, parameters.getSensorType());
+		args.putString(Bundling.SENSOR_NAME, parameters.getSensorName());
+		args.putFloat(Bundling.RANGE, parameters.getRange());
+		args.putFloat(Bundling.RESOLUTION, parameters.getResolution());
 		groupFragment.setArguments(args);
 		transaction.add(R.id.sensor_group, groupFragment, parameters.getSensorName());
 		transaction.commit();

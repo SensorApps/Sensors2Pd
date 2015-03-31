@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.sensors2.pd.Bundling;
 import org.sensors2.pd.R;
 
 public class HelpSensorFragment extends Fragment {
@@ -20,7 +21,7 @@ public class HelpSensorFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.help_single_sensor, null);
 		Bundle args = this.getArguments();
-		((TextView) view.findViewById(R.id.name)).setText("sensor" + args.getInt("sensorType") + "v" + args.getInt("index"));
+		((TextView) view.findViewById(R.id.name)).setText("sensor" + args.getInt(Bundling.SENSOR_TYPE) + "v" + args.getInt(Bundling.INDEX));
 		return view;
 	}
 }
