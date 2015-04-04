@@ -12,7 +12,7 @@ import org.puredata.android.io.AudioParameters;
 import org.puredata.android.service.PdService;
 import org.puredata.android.utils.PdUiDispatcher;
 import org.puredata.core.PdBase;
-import org.sensors2.common.sensors.DataDispatcher;
+import org.sensors2.common.dispatch.DataDispatcher;
 import org.sensors2.common.dispatch.Measurement;
 import org.sensors2.common.dispatch.MeasurementType;
 import org.sensors2.pd.R;

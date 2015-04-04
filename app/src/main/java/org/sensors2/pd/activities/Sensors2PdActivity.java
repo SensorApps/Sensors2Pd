@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
-import org.sensors2.common.sensors.DataDispatcher;
+import org.sensors2.common.dispatch.DataDispatcher;
 import org.sensors2.common.sensors.Parameters;
 import org.sensors2.common.sensors.SensorActivity;
 import org.sensors2.common.sensors.SensorCommunication;

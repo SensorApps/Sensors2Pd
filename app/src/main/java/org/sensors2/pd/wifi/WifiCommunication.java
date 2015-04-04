@@ -8,7 +8,7 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 
 import org.sensors2.common.dispatch.Measurement;
-import org.sensors2.common.sensors.DataDispatcher;
+import org.sensors2.common.dispatch.DataDispatcher;
 import org.sensors2.common.wifi.WifiActivity;
 
 import java.util.List;
