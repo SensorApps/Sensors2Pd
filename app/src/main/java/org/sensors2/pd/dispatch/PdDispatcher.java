@@ -25,6 +25,7 @@ import java.io.IOException;
 public class PdDispatcher implements DataDispatcher {
 	private PdUiDispatcher dispatcher;
 	private File pdFile;
+	private int patchHandle;
 	private static final String TAG = "Sensors2PD";
 	private final Activity activity;
 
@@ -105,10 +106,11 @@ public class PdDispatcher implements DataDispatcher {
 	}
 
 	private void loadPatch(File pdFile) throws IOException {
-// Hear the sound
+		PdBase.closePatch(patchHandle);
+		patchHandle = 0;
 		if (pdFile != null) {
 			try {
-				PdBase.openPatch(pdFile.getAbsolutePath());
+				patchHandle = PdBase.openPatch(pdFile.getAbsolutePath());
 				Log.e(TAG, "File " + pdFile.getAbsolutePath() + " " + pdFile.getAbsolutePath());
 				this.activity.bindService(new Intent(this.activity, PdService.class), pdConnection, this.activity.BIND_AUTO_CREATE);
 			} catch (IOException e) {
