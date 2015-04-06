@@ -26,7 +26,7 @@ import org.sensors2.common.wifi.WifiActivity;
 import org.sensors2.pd.R;
 import org.sensors2.pd.filesystem.FileLoader;
 import org.sensors2.pd.filesystem.FileSelector;
-import org.sensors2.pd.sensors.PdDispatcher;
+import org.sensors2.pd.dispatch.PdDispatcher;
 import org.sensors2.pd.sensors.Settings;
 import org.sensors2.pd.touch.TouchCommunication;
 import org.sensors2.pd.wifi.WifiCommunication;

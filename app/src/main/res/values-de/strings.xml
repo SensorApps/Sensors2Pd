@@ -10,7 +10,7 @@
     <string name="action_settings">Einstellungen</string>
     <string name="activity_guide">Hilfe für Sensors2Pd</string>
     <string name="text_guide_headline">Hilfe</string>
-    <string name="text_guide">Du kannst Empfangsobjekte aller verfügbaren Sensoren in Pd-Patches verwenden.\n\nWenn ein Beschleunigungssensor vorhanden ist, kannst Du z.B. diese Empfänger im Patch verwenden:\n [r sensor1v0], [r sensor1v1], [r sensor1v2].\n\nTouchscreen-Sensoren sind ebenfalls verfügbar:\n [r sensorT0vx] bis [r sensorT14vx],\n und \n [r sensorT14vy] bis [r sensorT14vy].\n\nAuch die Stärke von Wifi-Signalen stehen zur Verfügung:\n [r sensorW-WiFiSSID]\n\nDie verfügbaren Sensoren sind unten aufgelistet.</string>    <string name="text_available_sensors">verfügbare Sensoren</string>
+    <string name="text_guide">Du kannst Empfangsobjekte aller verfügbaren Sensoren in Pd-Patches verwenden.\n\nWenn ein Beschleunigungssensor vorhanden ist, kannst Du z.B. diese Empfänger im Patch verwenden:\n  [r sensor_1_0], [r sensor_1_1], [r sensor_1_2].\n\nTouchscreen-Sensoren sind ebenfalls verfügbar:\n [r touch_x] and [r touch_y].\n\nAuch die Informationen über Wifi-Signale stehen zur Verfügung:\n [r wifi_WiFiSSID_level] und [r wifi_WiFiSSID_frequency]\n\nDie verfügbaren Sensoren sind unten aufgelistet.</string>    <string name="text_available_sensors">verfügbare Sensoren</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="open_file">.pd- or .zip-Datei auswählen</string>

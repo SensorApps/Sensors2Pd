@@ -21,7 +21,7 @@ public class HelpSensorFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.help_single_sensor, null);
 		Bundle args = this.getArguments();
-		((TextView) view.findViewById(R.id.name)).setText("sensor" + args.getInt(Bundling.SENSOR_TYPE) + "v" + args.getInt(Bundling.INDEX));
+		((TextView) view.findViewById(R.id.name)).setText("sensor_" + args.getInt(Bundling.SENSOR_TYPE) + "_" + args.getInt(Bundling.INDEX));
 		return view;
 	}
 }

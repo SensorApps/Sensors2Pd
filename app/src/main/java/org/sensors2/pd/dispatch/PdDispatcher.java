@@ -1,4 +1,4 @@
-package org.sensors2.pd.sensors;
+package org.sensors2.pd.dispatch;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -46,9 +46,20 @@ public class PdDispatcher implements DataDispatcher {
 			case Sensor:
 				return "sensor_" + sensorData.getSensorType() + "_" + i;
 			case Wifi:
+				switch (i) {
+					case 0:
+						return "wifi_" + sensorData.getName() + "_level";
+					case 1:
+						return "wifi_" + sensorData.getName() + "_frequency";
+				}
 				return "wifi_" + sensorData.getName() + "_" + i;
 			case Touch:
-				return "touch_" + i;
+				switch (i){
+					case 0:
+						return "touch_x";
+					case 1:
+						return "touch_y";
+				}
 		}
 		return "";
 	}
