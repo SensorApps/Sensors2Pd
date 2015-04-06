@@ -14,21 +14,21 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 import org.sensors2.common.dispatch.DataDispatcher;
 import org.sensors2.common.sensors.Parameters;
 import org.sensors2.common.sensors.SensorActivity;
 import org.sensors2.common.sensors.SensorCommunication;
+import org.sensors2.common.touch.TouchActivity;
 import org.sensors2.common.wifi.WifiActivity;
 import org.sensors2.pd.R;
 import org.sensors2.pd.filesystem.FileLoader;
 import org.sensors2.pd.filesystem.FileSelector;
 import org.sensors2.pd.sensors.PdDispatcher;
 import org.sensors2.pd.sensors.Settings;
+import org.sensors2.pd.touch.TouchCommunication;
 import org.sensors2.pd.wifi.WifiCommunication;
 
 import java.io.File;
@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * Created by thomas on 12.11.14.
  */
-public class Sensors2PdActivity extends Activity implements SensorEventListener, SensorActivity, WifiActivity, OnTouchListener, FileSelector.FileSelectorListener {
+public class Sensors2PdActivity extends Activity implements SensorEventListener, SensorActivity, WifiActivity, TouchActivity, FileSelector.FileSelectorListener {
 
 	private Settings settings;
 	private PdDispatcher dispatcher;
@@ -47,14 +47,14 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	private SensorCommunication sensorFactory;
 	private WifiManager wifiManager;
 	private WifiCommunication wifiFactory;
+	private View touchView;
+	private TouchCommunication touchFactory;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sensors2pd);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		View view = findViewById(R.id.scrollView1);
-		view.setOnTouchListener(this);
 		super.onCreate(savedInstanceState);
 		this.settings = this.loadSettings();
 		this.dispatcher = new PdDispatcher(this);
@@ -64,6 +64,9 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 		// Wifi
 		this.wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		this.wifiFactory = new WifiCommunication(this);
+		// Touch
+		this.touchView = findViewById(R.id.scrollView1);
+		this.touchFactory = new TouchCommunication(this);
 	}
 
 	@Override
@@ -104,6 +107,11 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	@Override
 	public SensorManager getSensorManager() {
 		return this.sensorManager;
+	}
+
+	@Override
+	public View getTouchView() {
+		return this.touchView;
 	}
 
 	@Override
@@ -152,12 +160,6 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-	}
-
-
-	@Override
-	public boolean onTouch(View view, MotionEvent motionEvent) {
-		return false;
 	}
 
 	@Override
