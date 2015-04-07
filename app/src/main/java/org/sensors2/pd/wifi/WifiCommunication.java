@@ -7,8 +7,8 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 
-import org.sensors2.common.dispatch.Measurement;
 import org.sensors2.common.dispatch.DataDispatcher;
+import org.sensors2.common.dispatch.Measurement;
 import org.sensors2.common.wifi.WifiActivity;
 
 import java.util.List;
@@ -19,12 +19,18 @@ import java.util.List;
 public class WifiCommunication {
 
 	private final DataDispatcher dispatcher;
-	private final WifiReceiver receiver;
+	private final WifiActivity activity;
+	private WifiReceiver receiver;
 	private final WifiManager wifiManager;
 
 	public WifiCommunication(WifiActivity activity) {
 		this.dispatcher = activity.getDispatcher();
 		this.wifiManager = activity.getWifiManager();
+		this.activity = activity;
+		startWifi(this.activity);
+	}
+
+	private void startWifi(WifiActivity activity) {
 		this.receiver = new WifiReceiver();
 		activity.registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		wifiManager.startScan();
@@ -32,6 +38,14 @@ public class WifiCommunication {
 
 	public void sendResult(ScanResult scanResult) {
 		this.dispatcher.dispatch(new Measurement(scanResult));
+	}
+
+	public void onPause() {
+		this.receiver.abortBroadcast();
+	}
+
+	public void onResume() {
+		startWifi(this.activity);
 	}
 
 	private class WifiReceiver extends BroadcastReceiver {

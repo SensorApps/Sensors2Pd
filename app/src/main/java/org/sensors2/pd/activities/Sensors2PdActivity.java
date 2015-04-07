@@ -73,6 +73,8 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	protected void onPause() {
 		super.onPause();
 		this.sensorFactory.onPause();
+		this.wifiFactory.onPause();
+		this.touchFactory.onPause();
 		this.dispatcher.onPause();
 	}
 
@@ -82,6 +84,8 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 		this.loadSettings();
 		this.dispatcher.onResume();
 		this.sensorFactory.onResume();
+		this.wifiFactory.onResume();
+		this.touchFactory.onResume();
 	}
 
 	private Settings loadSettings() {

@@ -12,10 +12,16 @@ import org.sensors2.common.touch.TouchActivity;
  */
 public class TouchCommunication implements View.OnTouchListener {
 	private final DataDispatcher dispatcher;
+	private final View touchView;
 
 	public TouchCommunication(TouchActivity activity) {
 		this.dispatcher = activity.getDispatcher();
-		activity.getTouchView().setOnTouchListener(this);
+		this.touchView = activity.getTouchView();
+		setOnTouchListener(this.touchView);
+	}
+
+	private void setOnTouchListener(View activity) {
+		this.touchView.setOnTouchListener(this);
 	}
 
 	private void sendResult(MotionEvent motionEvent) {
@@ -31,5 +37,13 @@ public class TouchCommunication implements View.OnTouchListener {
 		}
 		this.sendResult(motionEvent);
 		return false;
+	}
+
+	public void onPause() {
+		this.touchView.setOnTouchListener(null);
+	}
+
+	public void onResume() {
+		setOnTouchListener(this.touchView);
 	}
 }
