@@ -24,7 +24,9 @@ public class TouchCommunication implements View.OnTouchListener {
 
 	@Override
 	public boolean onTouch(View view, MotionEvent motionEvent) {
-		if (motionEvent.getAction() !=  MotionEvent.ACTION_DOWN && motionEvent.getAction() != MotionEvent.ACTION_POINTER_DOWN){
+		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN
+				&& motionEvent.getAction() != MotionEvent.ACTION_POINTER_DOWN
+				&& motionEvent.getAction() != MotionEvent.ACTION_MOVE) {
 			return false;
 		}
 		this.sendResult(motionEvent);
