@@ -1,14 +1,14 @@
-From 061942884b733364c424448bf88376bb212396b7 Mon Sep 17 00:00:00 2001
-From: Thomas Mayer <thomas@residuum.org>
-Date: Sat, 6 Dec 2014 14:00:56 +0100
-Subject: [PATCH] Changes for gradle build
+From 482cb7d2dfdd363b9f3c8532c3ec0e893ff440e0 Mon Sep 17 00:00:00 2001
+From: Felix Homann <linuxaudio@showlabor.de>
+Date: Tue, 17 Dec 2013 09:45:49 +0100
+Subject: [PATCH] Update gradle build system to work with pd-for-android.
 
 ---
  AndroidMidi/build.gradle | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/AndroidMidi/build.gradle b/AndroidMidi/build.gradle
-index 13aca3f..cae2154 100644
+index 13aca3f..7c86e26 100644
 --- a/AndroidMidi/build.gradle
 +++ b/AndroidMidi/build.gradle
 @@ -3,7 +3,7 @@ buildscript {
@@ -16,7 +16,7 @@ index 13aca3f..cae2154 100644
      }
      dependencies {
 -        classpath 'com.android.tools.build:gradle:0.4'
-+        classpath 'com.android.tools.build:gradle:0.13.2'
++        classpath 'com.android.tools.build:gradle:0.6+'
      }
  }
  apply plugin: 'android-library'
@@ -26,11 +26,8 @@ index 13aca3f..cae2154 100644
  android {
 -    compileSdkVersion 12
 -    buildToolsVersion "12"
-+    compileSdkVersion 17
-+    buildToolsVersion '19.1.0'
++    compileSdkVersion 19
++    buildToolsVersion "19"
  
      defaultConfig {
          minSdkVersion 8
--- 
-2.1.3
-
