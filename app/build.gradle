@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "org.sensors2.pd"
-        minSdkVersion 8
+        minSdkVersion 10
         targetSdkVersion 22
         versionCode 1
         versionName "0.1.0"
@@ -23,14 +23,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:22.1.1'
     compile project(":common")
-    compile project(":AndroidMidi")
-    compile project(":PdCore")
+    compile 'org.puredata.android:pd-core:1.0.0-rc3'
 }
 
-task copyNativeLibs(type: Copy) {
-    from(new File(getProjectDir(), 'libs')) { include '**/*.so' }
-    into new File(getProjectDir(), 'src/main/jniLibs')
-}
-tasks.withType(JavaCompile) { compileTask -> compileTask.dependsOn copyNativeLibs }
-
-clean.dependsOn 'cleanCopyNativeLibs'
