@@ -1,3 +1,5 @@
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Copy
+
 apply plugin: 'com.android.application'
 
 android {
@@ -22,9 +24,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:22.1.1'
-    compile project(":common")
-    compile project(":AndroidMidi")
-    compile project(":PdCore")
+    compile 'com.github.libpd:pd-for-android:1.0.0-rc4'
+    compile 'com.github.SensorApps:Common:c580ef3a4c'
 }
 
 task copyNativeLibs(type: Copy) {
