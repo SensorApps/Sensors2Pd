@@ -2,7 +2,7 @@
 *.apk
 *.ap_
 
-# Files for the Dalvik VM
+# Files for the ART/Dalvik VM
 *.dex
 
 # Java class files
@@ -11,6 +11,7 @@
 # Generated files
 bin/
 gen/
+out/
 
 # Gradle files
 .gradle/
@@ -25,11 +26,23 @@ proguard/
 # Log Files
 *.log
 
-# Intellij IDEA (see https://intellij-support.jetbrains.com/entries/23393067)
-.idea/workspace.xml
+# Android Studio Navigation editor temp files
+.navigation/
+
+# Android Studio captures folder
+captures/
+
+# Intellij
+*.iml
 .idea/tasks.xml
+.idea/workspace.xml
+.idea/libraries
+.idea/workspace.xml
 .idea/datasources.xml
 .idea/dataSources.ids
+
+# Keystore files
+*.jks
 
 # Native libraries
 **/*.so

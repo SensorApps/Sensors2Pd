@@ -1,5 +1,3 @@
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Copy
-
 apply plugin: 'com.android.application'
 
 android {
@@ -8,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "org.sensors2.pd"
-        minSdkVersion 8
+        minSdkVersion 10
         targetSdkVersion 22
         versionCode 1
         versionName "0.1.0"
@@ -27,11 +25,3 @@ dependencies {
     compile 'com.github.libpd:pd-for-android:1.0.0-rc4'
     compile 'com.github.SensorApps:Common:c580ef3a4c'
 }
-
-task copyNativeLibs(type: Copy) {
-    from(new File(getProjectDir(), 'libs')) { include '**/*.so' }
-    into new File(getProjectDir(), 'src/main/jniLibs')
-}
-tasks.withType(JavaCompile) { compileTask -> compileTask.dependsOn copyNativeLibs }
-
-clean.dependsOn 'cleanCopyNativeLibs'
