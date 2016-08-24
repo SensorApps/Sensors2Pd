@@ -4,13 +4,3 @@ Sensors2Pd
 Android app, that loads Pd patches and sends data from sensors to 
 receivers in these patches.
 
-
-Development and Building
-------------------------
-
-After cloning the source, you need to download the submodules:
-    git submodule update --init --recursive
-
-As a last step, you have to apply patches to pd-for-android and
-MIDI for Android:
-    sh apply-patches.sh
