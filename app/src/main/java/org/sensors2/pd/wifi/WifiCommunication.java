@@ -1,5 +1,6 @@
 package org.sensors2.pd.wifi;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -32,16 +33,21 @@ public class WifiCommunication {
 
 	private void startWifi(WifiActivity activity) {
 		this.receiver = new WifiReceiver();
-		activity.registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-		wifiManager.startScan();
+//		activity.registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+//		wifiManager.startScan();
 	}
 
 	public void sendResult(ScanResult scanResult) {
-		this.dispatcher.dispatch(new Measurement(scanResult));
+//		this.dispatcher.dispatch(new Measurement(scanResult));
 	}
 
 	public void onPause() {
-		this.receiver.abortBroadcast();
+//		try {
+////			((Activity)	this.activity).getApplicationContext().unregisterReceiver(this.receiver);
+////			this.receiver.abortBroadcast();
+//		} catch (Exception e) {
+//			System.out.print(e.toString());
+//		}
 	}
 
 	public void onResume() {

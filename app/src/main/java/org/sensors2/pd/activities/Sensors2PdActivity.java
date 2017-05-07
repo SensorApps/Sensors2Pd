@@ -62,7 +62,7 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 		this.sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		this.sensorFactory = new SensorCommunication(this);
 		// Wifi
-		this.wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		this.wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 		this.wifiFactory = new WifiCommunication(this);
 		// Touch
 		this.touchView = findViewById(R.id.scrollView1);
