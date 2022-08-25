@@ -1,5 +1,6 @@
 package org.sensors2.pd.touch;
 
+import android.annotation.SuppressLint;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -17,10 +18,10 @@ public class TouchCommunication implements View.OnTouchListener {
 	public TouchCommunication(TouchActivity activity) {
 		this.dispatcher = activity.getDispatcher();
 		this.touchView = activity.getTouchView();
-		setOnTouchListener(this.touchView);
+		setOnTouchListener();
 	}
 
-	private void setOnTouchListener(View activity) {
+	private void setOnTouchListener() {
 		this.touchView.setOnTouchListener(this);
 	}
 
@@ -28,6 +29,7 @@ public class TouchCommunication implements View.OnTouchListener {
 		this.dispatcher.dispatch(new Measurement(motionEvent));
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouch(View view, MotionEvent motionEvent) {
 		if (motionEvent.getAction() != MotionEvent.ACTION_DOWN
@@ -44,6 +46,6 @@ public class TouchCommunication implements View.OnTouchListener {
 	}
 
 	public void onResume() {
-		setOnTouchListener(this.touchView);
+		setOnTouchListener();
 	}
 }

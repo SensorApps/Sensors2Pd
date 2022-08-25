@@ -1,9 +1,7 @@
 package org.sensors2.pd.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +10,10 @@ import android.widget.TextView;
 import org.sensors2.pd.Bundling;
 import org.sensors2.pd.R;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 /**
  * Created by thomas on 09.11.14.
  */
@@ -19,14 +21,15 @@ public class HelpSensorGroupFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Bundle args = this.getArguments();
+		assert args != null;
 		int dimensions = args.getInt(Bundling.DIMENSIONS);
 		int sensorType = args.getInt(Bundling.SENSOR_TYPE);
 		String sensorName = args.getString(Bundling.SENSOR_NAME);
-		View v = inflater.inflate(R.layout.help_sensor_group, null);
-		TextView groupName = (TextView) v.findViewById(R.id.group_name);
+		@SuppressLint("InflateParams") View v = inflater.inflate(R.layout.help_sensor_group, null);
+		TextView groupName = v.findViewById(R.id.group_name);
 		groupName.setText(sensorName);
-		AddText((TextView) v.findViewById(R.id.range), args.getFloat(Bundling.RANGE));
-		AddText((TextView) v.findViewById(R.id.resolution), args.getFloat(Bundling.RESOLUTION));
+		AddText(v.findViewById(R.id.range), args.getFloat(Bundling.RANGE));
+		AddText(v.findViewById(R.id.resolution), args.getFloat(Bundling.RESOLUTION));
 		CreateSensors(sensorType, dimensions);
 		return v;
 	}

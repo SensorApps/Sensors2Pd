@@ -25,32 +25,25 @@ public class FileLoader {
 
 	public File getFile() throws IOException {
 		File file = new File(this.filePath);
-		if (file != null) {
-			if (file.getAbsolutePath().endsWith(".pd")) {
-				return file;
-			} else if (file.getAbsolutePath().endsWith(".zip")) {
-				InputStream inputStream = null;
-				InputStream fileStream = null;
-				try {
-					File dir = ctx.getFilesDir();
-					fileStream = new FileInputStream(file);
-					inputStream = new BufferedInputStream(fileStream);
-					IoUtils.extractZipResource(inputStream, dir, true);
-					File patchFile = new File(dir, file.getName().replace(".zip", ".pd"));
-					return patchFile;
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					fileStream.close();
-					inputStream.close();
-				}
-			} else {
-
+		if (file.getAbsolutePath().endsWith(".pd")) {
+			return file;
+		} else if (file.getAbsolutePath().endsWith(".zip")) {
+			InputStream inputStream = null;
+			InputStream fileStream = null;
+			try {
+				File dir = ctx.getFilesDir();
+				fileStream = new FileInputStream(file);
+				inputStream = new BufferedInputStream(fileStream);
+				IoUtils.extractZipResource(inputStream, dir, true);
+				return new File(dir, file.getName().replace(".zip", ".pd"));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				fileStream.close();
+				inputStream.close();
 			}
-		} else {
-
 		}
 		return null;
 	}

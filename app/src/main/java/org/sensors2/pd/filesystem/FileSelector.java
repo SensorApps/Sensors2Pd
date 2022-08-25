@@ -18,8 +18,8 @@ import org.sensors2.pd.R;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -28,17 +28,16 @@ import java.util.List;
 public class FileSelector {
 
 	private String rootDirectory;
-	private Context context;
+	private final Context context;
 	private String selectedFileName = null;
 
 	private String directory = "";
 	private List<File> subDirectories = null;
-	private FileSelectorListener listener = null;
+	private final FileSelectorListener listener;
 	private ArrayAdapter<File> listAdapter = null;
-	private boolean moveUp = false;
 
 	public interface FileSelectorListener {
-		public void onChosenFile(String filePath);
+		void onChosenFile(String filePath);
 	}
 
 	public FileSelector(Context context, FileSelectorListener listener) {
@@ -61,6 +60,7 @@ public class FileSelector {
 		File dirFile = new File(dir);
 		while (!dirFile.exists() || !dirFile.isDirectory()) {
 			dir = dirFile.getParent();
+			assert dir != null;
 			dirFile = new File(dir);
 		}
 		try {
@@ -108,14 +108,11 @@ public class FileSelector {
 		AlertDialog.Builder dialogBuilder = createDirectoryChooserDialog(subDirectories,
 				new SimpleFileDialogOnClickListener());
 
-		dialogBuilder.setPositiveButton(R.string.ok, new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// Current directory chosen
-				// Call registered listener supplied with the chosen directory
-				if (listener != null) {
-					listener.onChosenFile(selectedFileName);
-				}
+		dialogBuilder.setPositiveButton(R.string.ok, (dialog, which) -> {
+			// Current directory chosen
+			// Call registered listener supplied with the chosen directory
+			if (listener != null) {
+				listener.onChosenFile(selectedFileName);
 			}
 		}).setNegativeButton(R.string.cancel, null);
 
@@ -139,31 +136,23 @@ public class FileSelector {
 	}
 
 	private List<File> getDirectories(String dir) {
-		List<File> dirs = new ArrayList<File>();
+		List<File> dirs = new ArrayList<>();
 		try {
 			File dirFile = new File(dir);
 
 			// if directory is not the base sd card directory add ".." for going up one directory
-			if ((moveUp || !directory.equals(rootDirectory))
-					&& !"/".equals(directory)
-					) {
+			if (!directory.equals(rootDirectory) && !"/".equals(directory)) {
 				dirs.add(new File(".."));
 			}
 			if (!dirFile.exists() || !dirFile.isDirectory()) {
 				return dirs;
 			}
 
-			for (File file : dirFile.listFiles()) {
-				dirs.add(file);
-			}
+			dirs.addAll(Arrays.asList(dirFile.listFiles()));
 		} catch (Exception e) {
 		}
 
-		Collections.sort(dirs, new Comparator<File>() {
-			public int compare(File o1, File o2) {
-				return o1.compareTo(o2);
-			}
-		});
+		Collections.sort(dirs, File::compareTo);
 		return dirs;
 	}
 

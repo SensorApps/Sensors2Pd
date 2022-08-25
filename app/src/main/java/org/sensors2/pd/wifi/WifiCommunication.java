@@ -21,8 +21,8 @@ public class WifiCommunication {
 
 	private final DataDispatcher dispatcher;
 	private final WifiActivity activity;
-	private WifiReceiver receiver;
 	private final WifiManager wifiManager;
+	private WifiReceiver receiver;
 
 	public WifiCommunication(WifiActivity activity) {
 		this.dispatcher = activity.getDispatcher();
@@ -33,12 +33,12 @@ public class WifiCommunication {
 
 	private void startWifi(WifiActivity activity) {
 		this.receiver = new WifiReceiver();
-//		activity.registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-//		wifiManager.startScan();
+		activity.registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+		wifiManager.startScan();
 	}
 
 	public void sendResult(ScanResult scanResult) {
-//		this.dispatcher.dispatch(new Measurement(scanResult));
+		this.dispatcher.dispatch(new Measurement(scanResult));
 	}
 
 	public void onPause() {

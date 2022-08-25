@@ -1,5 +1,6 @@
 package org.sensors2.pd.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -50,12 +51,12 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 	private View touchView;
 	private TouchCommunication touchFactory;
 
+	@SuppressLint("SourceLockedOrientationActivity")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sensors2pd);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		super.onCreate(savedInstanceState);
 		this.settings = this.loadSettings();
 		this.dispatcher = new PdDispatcher(this);
 		// Sensors
@@ -90,13 +91,12 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 
 	private Settings loadSettings() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		Settings settings = new Settings(preferences);
-		return settings;
+		return new Settings(preferences);
 	}
 
 	@Override
 	public List<Parameters> GetSensors(SensorManager manager) {
-		List<Parameters> parameters = new ArrayList<Parameters>();
+		List<Parameters> parameters = new ArrayList<>();
 		for (Sensor sensor : sensorManager.getSensorList(Sensor.TYPE_ALL)) {
 			parameters.add(new org.sensors2.pd.sensors.Parameters(sensor));
 		}
@@ -139,6 +139,7 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 		return true;
 	}
 
+	@SuppressLint("NonConstantResourceId")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -177,7 +178,8 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 		}
 		if (this.dispatcher.setPdFile(loadedFile)) {
 			findViewById(R.id.runningPdFileIntro).setVisibility(View.VISIBLE);
-			TextView view = (TextView) findViewById(R.id.runningPdFile);
+			TextView view = findViewById(R.id.runningPdFile);
+			assert loadedFile != null;
 			view.setText(loadedFile.getName());
 			view.setVisibility(View.VISIBLE);
 		} else {
