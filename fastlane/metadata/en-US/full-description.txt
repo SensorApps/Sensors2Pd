@@ -1,0 +1,1 @@
+Using sensor data in Puredata patches. Sensors are available as receivers in the patch. 
