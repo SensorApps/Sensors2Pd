@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sensors2Pd</string>
-    <string name="text_intro_headline">Welcome to Sensors2Pd!</string>
+    <string name="text_intro_headline">Welcome to Sensors2Pd</string>
     <string name="text_intro">Create your patch using desired receivers, upload to your SD card and load using Browse menu option.\n\nFor information on the sensors, have a look at the Help menu option.</string>
     <string name="text_pd_file">Currently loaded</string>
     <string name="action_browse">Browse</string>
@@ -41,4 +41,7 @@ THE SOFTWARE.]]></string>
         </string>
     <string name="guide_max_range">Max range</string>
     <string name="guide_resolution">Resolution</string>
+    <string name="error_storage_access">Storage cannot be accessed.</string>
+    <string name="error_patch_name"><![CDATA[The zip file needs a Pd file with the same name inside: patch.zip -> patch.pd]]></string>
+    <string name="error_directory_access">Directory cannot be opened.</string>
 </resources>

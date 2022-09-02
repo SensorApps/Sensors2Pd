@@ -1,21 +1,9 @@
 package org.sensors2.pd.activities;
 
-import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NavUtils;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import org.sensors2.pd.Bundling;
@@ -25,7 +13,11 @@ import org.sensors2.pd.sensors.Parameters;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * Created by thomas on 12.11.14.

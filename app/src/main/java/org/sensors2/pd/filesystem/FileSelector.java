@@ -11,6 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.sensors2.pd.R;
 
@@ -49,6 +50,7 @@ public class FileSelector {
 		try {
 			rootDirectory = new File(rootDirectory).getCanonicalPath();
 		} catch (IOException ioe) {
+			Toast.makeText(context, R.string.error_storage_access, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -151,6 +153,7 @@ public class FileSelector {
 
 			dirs.addAll(Arrays.asList(dirFile.listFiles()));
 		} catch (Exception e) {
+			Toast.makeText(context, R.string.error_directory_access, Toast.LENGTH_SHORT).show();
 		}
 
 		Collections.sort(dirs, File::compareTo);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Sensors2Pd</string>
-    <string name="text_intro_headline">Wilkommen bei Sensors2Pd!</string>
+    <string name="text_intro_headline">Wilkommen bei Sensors2Pd</string>
     <string name="text_intro">Erzeuge einen Pd-Patch mit den gewünschten Empfänger-Objekten, lade ihn auf die SD-Karte hoch und wähle ihn über das Menü aus.\n\nInformationen über die Sensoren findest Du unter dem Menüpunkt "Hilfe".</string>
     <string name="text_pd_file">Aktuell geladen</string>
     <string name="action_browse">Datei wählen</string>
@@ -41,4 +41,7 @@ THE SOFTWARE.]]></string>
         </string>
     <string name="guide_max_range">Wertumfang</string>
     <string name="guide_resolution">Auflösung</string>
+    <string name="error_storage_access">Datenspeicher kann nicht geöffnet werden.</string>
+    <string name="error_patch_name"><![CDATA[Die zip-Datei benötigt eine Pd-Datei mit demselben Namen als Inhalt: patch.zip -> patch.pd]]></string>
+    <string name="error_directory_access">Das Verzeichnis kann nicht geöffnet werden.</string>
 </resources>

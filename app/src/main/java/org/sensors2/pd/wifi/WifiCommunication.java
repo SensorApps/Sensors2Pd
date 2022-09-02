@@ -1,6 +1,5 @@
 package org.sensors2.pd.wifi;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +21,6 @@ public class WifiCommunication {
 	private final DataDispatcher dispatcher;
 	private final WifiActivity activity;
 	private final WifiManager wifiManager;
-	private WifiReceiver receiver;
 
 	public WifiCommunication(WifiActivity activity) {
 		this.dispatcher = activity.getDispatcher();
@@ -32,7 +30,7 @@ public class WifiCommunication {
 	}
 
 	private void startWifi(WifiActivity activity) {
-		this.receiver = new WifiReceiver();
+		WifiReceiver receiver = new WifiReceiver();
 		activity.registerReceiver(receiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 		wifiManager.startScan();
 	}

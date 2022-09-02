@@ -107,7 +107,7 @@ public class PdDispatcher implements DataDispatcher {
 		}
 	}
 
-	private void loadPatch(File pdFile) {
+	private boolean loadPatch(File pdFile) {
 		PdBase.closePatch(patchHandle);
 		patchHandle = 0;
 		if (pdFile != null) {
@@ -115,15 +115,17 @@ public class PdDispatcher implements DataDispatcher {
 				patchHandle = PdBase.openPatch(pdFile.getAbsolutePath());
 				Log.e(TAG, "File " + pdFile.getAbsolutePath() + " " + pdFile.getAbsolutePath());
 				this.activity.bindService(new Intent(this.activity, PdService.class), pdConnection, Context.BIND_AUTO_CREATE);
+				return true;
 			} catch (IOException e) {
-				Toast.makeText(activity, "The zip file needs a file with the same name inside: patch.zip -> patch.pd", Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, R.string.error_patch_name, Toast.LENGTH_SHORT).show();
+				return false;
 			}
 		}
+		return false;
 	}
 
 	public boolean setPdFile(File pdFile) {
-		loadPatch(pdFile);
-		return true;
+		return loadPatch(pdFile);
 	}
 
 	public void onResume() {

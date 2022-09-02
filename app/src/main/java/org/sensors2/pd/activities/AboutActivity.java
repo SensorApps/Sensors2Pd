@@ -1,13 +1,7 @@
 package org.sensors2.pd.activities;
 
-import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.NavUtils;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
@@ -15,7 +9,8 @@ import android.widget.TextView;
 
 import org.sensors2.pd.R;
 
-import java.util.Objects;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 
 public class AboutActivity extends AppCompatActivity {

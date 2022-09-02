@@ -1,12 +1,10 @@
 package org.sensors2.pd.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import androidx.appcompat.widget.Toolbar;
 
 import org.sensors2.common.dispatch.DataDispatcher;
 import org.sensors2.common.sensors.Parameters;
@@ -41,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by thomas on 12.11.14.
