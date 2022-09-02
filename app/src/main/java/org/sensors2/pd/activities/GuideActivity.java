@@ -1,14 +1,21 @@
 package org.sensors2.pd.activities;
 
+import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import org.sensors2.pd.Bundling;
@@ -23,7 +30,7 @@ import java.util.Objects;
 /**
  * Created by thomas on 12.11.14.
  */
-public class GuideActivity extends FragmentActivity {
+public class GuideActivity extends AppCompatActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,8 @@ public class GuideActivity extends FragmentActivity {
 		for (Parameters parameters : sensors) {
 			this.CreateSensorFragments(parameters);
 		}
-		Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 	}
 
 	private void CreateSensorFragments(Parameters parameters) {

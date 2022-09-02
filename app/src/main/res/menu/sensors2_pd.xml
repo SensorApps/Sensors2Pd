@@ -17,16 +17,16 @@
         android:id="@+id/action_guide"
         android:orderInCategory="100"
         android:title="@string/action_guide"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="150"
         android:title="@string/action_settings"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/action_about"
         android:orderInCategory="200"
         android:title="@string/action_about"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>
 

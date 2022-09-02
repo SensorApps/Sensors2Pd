@@ -6,17 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import org.sensors2.common.dispatch.DataDispatcher;
 import org.sensors2.common.sensors.Parameters;
@@ -25,9 +28,9 @@ import org.sensors2.common.sensors.SensorCommunication;
 import org.sensors2.common.touch.TouchActivity;
 import org.sensors2.common.wifi.WifiActivity;
 import org.sensors2.pd.R;
+import org.sensors2.pd.dispatch.PdDispatcher;
 import org.sensors2.pd.filesystem.FileLoader;
 import org.sensors2.pd.filesystem.FileSelector;
-import org.sensors2.pd.dispatch.PdDispatcher;
 import org.sensors2.pd.sensors.Settings;
 import org.sensors2.pd.touch.TouchCommunication;
 import org.sensors2.pd.wifi.WifiCommunication;
@@ -37,10 +40,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 /**
  * Created by thomas on 12.11.14.
  */
-public class Sensors2PdActivity extends Activity implements SensorEventListener, SensorActivity, WifiActivity, TouchActivity, FileSelector.FileSelectorListener {
+public class Sensors2PdActivity extends AppCompatActivity implements SensorEventListener, SensorActivity, WifiActivity, TouchActivity, FileSelector.FileSelectorListener {
 
 	private Settings settings;
 	private PdDispatcher dispatcher;
@@ -64,10 +70,16 @@ public class Sensors2PdActivity extends Activity implements SensorEventListener,
 		this.sensorFactory = new SensorCommunication(this);
 		// Wifi
 		this.wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
 		this.wifiFactory = new WifiCommunication(this);
 		// Touch
 		this.touchView = findViewById(R.id.scrollView1);
 		this.touchFactory = new TouchCommunication(this);
+
+		Toolbar toolbar = findViewById(R.id.action_bar);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			toolbar.setNavigationIcon(R.drawable.sensors2pd);
+		}
 	}
 
 	@Override

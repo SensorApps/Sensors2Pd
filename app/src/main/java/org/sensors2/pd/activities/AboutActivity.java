@@ -2,7 +2,11 @@ package org.sensors2.pd.activities;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NavUtils;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -14,7 +18,7 @@ import org.sensors2.pd.R;
 import java.util.Objects;
 
 
-public class AboutActivity extends Activity {
+public class AboutActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +41,8 @@ public class AboutActivity extends Activity {
 		TextView bugLinks = findViewById(R.id.buglinks);
 		bugLinks.setMovementMethod(LinkMovementMethod.getInstance());
 		bugLinks.setText(Html.fromHtml(getResources().getString(R.string.about_buglinks)));
-		Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
 	}
 
 	@Override
@@ -49,5 +54,4 @@ public class AboutActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
 }

@@ -1,6 +1,5 @@
 package org.sensors2.pd.filesystem;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -21,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * Created by thomas on 09.12.14.

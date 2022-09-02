@@ -1,6 +1,5 @@
 package org.sensors2.pd.dispatch;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,15 +20,17 @@ import org.sensors2.pd.R;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 /**
  * Created by thomas on 12.11.14.
  */
 public class PdDispatcher implements DataDispatcher {
 	private int patchHandle;
 	private static final String TAG = "Sensors2PD";
-	private final Activity activity;
+	private final AppCompatActivity activity;
 
-	public PdDispatcher(Activity activity) {
+	public PdDispatcher(AppCompatActivity activity) {
 		this.activity = activity;
 	}
 
