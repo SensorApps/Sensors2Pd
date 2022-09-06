@@ -15,7 +15,7 @@
     <string name="cancel">Abbrechen</string>
     <string name="open_file">.pd- or .zip-Datei auswählen</string>
     <string name="action_about">Über die App</string>
-    <string name="about_copyright">© Antonio Deusany de Carvalho Junior, Thomas Mayer 2015, &lt;a href=&quot;http://sensors2.org/pd/&quot;>sensors2.org/pd&lt;/a></string>
+    <string name="about_copyright">© Antonio Deusany de Carvalho Junior, Thomas Mayer 2015-2022, &lt;a href=&quot;http://sensors2.org/pd/&quot;>sensors2.org/pd&lt;/a></string>
     <string name="about_buglinks">Bugs bitte bei &lt;a href=&quot;https://github.com/SensorApps/Sensors2OSC/issues&quot;>GitHub&lt;/a> melden oder via Mail an &lt;a href=&quot;mailto:pd-bugs@sensors2.org&quot;">pd-bugs@sensors2.org&lt;/a>. Wir sehen uns das dann an.</string>
     <string name="about_license">Lizenz</string>
     <string name="about_mit_license_1">Permission is hereby granted, free of charge, to any person obtaining a copy
