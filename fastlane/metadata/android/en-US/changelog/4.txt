@@ -1,0 +1,2 @@
+- Cleaning up theme.
+- Bugfix for Android 12: Prevent crash on setting to highest sensor rate
